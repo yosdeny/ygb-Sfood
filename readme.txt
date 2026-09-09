@@ -3,7 +3,7 @@ Contributors: yosdeny
 Tags: buscador, alimentos, woocommerce, lista de compra, bulk order, carrito, cantidades, autocompletado, recetas
 Requires at least: 7.0
 Tested up to: 7.1
-Stable tag: 5.15.0
+Stable tag: 5.15.1
 Requires PHP: 8.0
 Tested PHP: 8.2
 License: GPLv2 or later
@@ -78,6 +78,15 @@ En el menú de administración de WordPress encontrarás una nueva entrada llama
 5. Ejemplo de autocompletado sugiriendo productos mientras se escribe.
 
 == Changelog ==
+
+= 5.15.1 =
+* MEJORADO: Integración automática con los colores del tema activo de WordPress
+* MEJORADO: Sistema avanzado de personalización de colores en el panel de administración (22 opciones independientes)
+* MEJORADO: Nueva paleta de colores base actualizada (blanco, verde #61ce70, naranja #E26143, dorado #dd9933, rojo #dd3333)
+* AÑADIDO: Botón "Añadir seleccionados al carrito" en la parte superior para mejor accesibilidad
+* CORREGIDO: Espaciado y márgenes excesivos entre el menú y el contenido
+* CORREGIDO: Efecto hover en el botón "Añadir seleccionados al carrito" inferior
+* COMPATIBILIDAD: Compatible con temas que usan el Customizer de WordPress
 
 = 5.15.0 =
 * AÑADIDO: Sistema de caché para búsquedas de productos (transients API) - mejora rendimiento en un 60-80%
