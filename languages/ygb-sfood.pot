@@ -1,0 +1,186 @@
+# Copyright (C) 2024 YGB
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: ygb-sfood 5.15.0\n"
+"Report-Msgid-Bugs-To: https://github.com/yosdeny\n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Domain: ygb-sfood\n"
+
+#: ygb-sfood.php:45
+msgid "Estadísticas"
+msgstr ""
+
+#: ygb-sfood.php:46
+msgid "Guardar"
+msgstr ""
+
+#: ygb-sfood.php:47
+msgid "WooCommerce no activo."
+msgstr ""
+
+#: ygb-sfood.php:48
+msgid "Buscar producto..."
+msgstr ""
+
+#: ygb-sfood.php:49
+msgid "Añadir"
+msgstr ""
+
+#: ygb-sfood.php:50
+msgid "Nombre de la lista"
+msgstr ""
+
+#: ygb-sfood.php:51
+msgid "Crear Lista"
+msgstr ""
+
+#: ygb-sfood.php:52
+msgid "Mis Listas"
+msgstr ""
+
+#: ygb-sfood.php:53
+msgid "Cargando listas..."
+msgstr ""
+
+#: ygb-sfood.php:54
+msgid "Producto"
+msgstr ""
+
+#: ygb-sfood.php:55
+msgid "Cantidad"
+msgstr ""
+
+#: ygb-sfood.php:56
+msgid "Acciones"
+msgstr ""
+
+#: ygb-sfood.php:57
+msgid "Eliminar"
+msgstr ""
+
+#: ygb-sfood.php:58
+msgid "No hay productos en esta lista."
+msgstr ""
+
+#: ygb-sfood.php:59
+msgid "Volver"
+msgstr ""
+
+#: ygb-sfood.php:60
+msgid "Configuración"
+msgstr ""
+
+#: ygb-sfood.php:61
+msgid "Color del botón"
+msgstr ""
+
+#: ygb-sfood.php:62
+msgid "Fondo botón"
+msgstr ""
+
+#: ygb-sfood.php:63
+msgid "Texto hover"
+msgstr ""
+
+#: ygb-sfood.php:64
+msgid "Fondo hover"
+msgstr ""
+
+#: ygb-sfood.php:65
+msgid "Icono"
+msgstr ""
+
+#: ygb-sfood.php:66
+msgid "Posición"
+msgstr ""
+
+#: ygb-sfood.php:67
+msgid "Izquierda"
+msgstr ""
+
+#: ygb-sfood.php:68
+msgid "Derecha"
+msgstr ""
+
+#: ygb-sfood.php:69
+msgid "Arriba"
+msgstr ""
+
+#: ygb-sfood.php:70
+msgid "Abajo"
+msgstr ""
+
+#: ygb-sfood.php:71
+msgid "Mostrar en móvil"
+msgstr ""
+
+#: ygb-sfood.php:72
+msgid "Sí"
+msgstr ""
+
+#: ygb-sfood.php:73
+msgid "No"
+msgstr ""
+
+#: ygb-sfood.php:74
+msgid "Actualizar configuración"
+msgstr ""
+
+#: ygb-sfood.php:120
+msgid "Error: nonce inválido."
+msgstr ""
+
+#: ygb-sfood.php:121
+msgid "Error: método no permitido."
+msgstr ""
+
+#: ygb-sfood.php:150
+msgid "%d producto(s) encontrado(s)."
+msgstr ""
+
+#: ygb-sfood.php:151
+msgid "No se encontraron productos."
+msgstr ""
+
+#: ygb-sfood.php:200
+msgid "%d unidad(es) añadida(s)."
+msgstr ""
+
+#: ygb-sfood.php:201
+msgid "Error al añadir el producto."
+msgstr ""
+
+#: ygb-sfood.php:250
+msgid "Lista guardada correctamente."
+msgstr ""
+
+#: ygb-sfood.php:251
+msgid "Error: nombre de lista vacío."
+msgstr ""
+
+#: ygb-sfood.php:252
+msgid "Error: datos de lista inválidos."
+msgstr ""
+
+#: ygb-sfood.php:300
+msgid "Lista eliminada."
+msgstr ""
+
+#: ygb-sfood.php:301
+msgid "Error al eliminar la lista."
+msgstr ""
+
+#: ygb-sfood.php:350
+msgid "Carrito actualizado."
+msgstr ""
+
+#: ygb-sfood.php:351
+msgid "El carrito está vacío."
+msgstr ""
