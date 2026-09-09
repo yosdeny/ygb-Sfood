@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: ygb-sfood
- * Plugin URI: https://github.com/yosdeny
+ * Plugin URI: https://url/lista-de-compras/
  * Description: Buscador de alimentos con controles +- en cantidad, admin-ajax, colores personalizables, responsive.
  * Version: 5.15.0
  * Author: YGB
@@ -22,7 +22,7 @@ class YGB_SFood {
 
     private $table_name;
     private $db;
-    private $blank_slug = 'ygb-buscador';
+    private $blank_slug = 'lista-de-compras';
     private const MAX_ITEMS = 50;
 
     public function __construct() {
