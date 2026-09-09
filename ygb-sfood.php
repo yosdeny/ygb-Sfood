@@ -584,6 +584,30 @@ class YGB_SFood {
         if (empty($input)) {
             wp_send_json_error(__('Sin búsqueda.', 'ygb-sfood'));
         }
+        
+        /**
+         * Filtro: Modificar tiempo de caché para búsquedas de productos.
+         * 
+         * @since 5.15.0
+         * @param int $cache_time Tiempo en segundos. Default 180.
+         * @return int
+         */
+        $cache_time = apply_filters('ygb_sfood_search_cache_time', 180);
+        $cache_key = 'ygb_sfood_search_' . md5($input);
+        $cached = get_transient($cache_key);
+        
+        if (false !== $cached) {
+            /**
+             * Acción: Se usó caché en búsqueda.
+             * 
+             * @since 5.15.0
+             * @param string $input Término buscado.
+             * @param array $cached Datos en caché.
+             */
+            do_action('ygb_sfood_search_cache_hit', $input, $cached);
+            wp_send_json_success($cached);
+        }
+        
         $items = $this->parsear($input);
         if (empty($items)) {
             wp_send_json_error(__('Ingresa alimentos.', 'ygb-sfood'));
@@ -631,7 +655,21 @@ class YGB_SFood {
             wp_send_json_error(__('No encontrado.', 'ygb-sfood'));
         }
         $this->log($input, count($resultados), 0);
-        wp_send_json_success(['productos' => array_values($resultados)]);
+        
+        $response = ['productos' => array_values($resultados)];
+        
+        set_transient($cache_key, $response, $cache_time);
+        
+        /**
+         * Acción: Búsqueda completada (sin caché).
+         * 
+         * @since 5.15.0
+         * @param string $input Término buscado.
+         * @param array $response Resultados de la búsqueda.
+         */
+        do_action('ygb_sfood_search_completed', $input, $response);
+        
+        wp_send_json_success($response);
     }
 
     public function agregar() {
@@ -684,6 +722,30 @@ class YGB_SFood {
         if (empty($term)) {
             wp_send_json_success([]);
         }
+        
+        /**
+         * Filtro: Modificar tiempo de caché para sugerencias.
+         * 
+         * @since 5.15.0
+         * @param int $cache_time Tiempo en segundos. Default 300.
+         * @return int
+         */
+        $cache_time = apply_filters('ygb_sfood_suggestions_cache_time', 300);
+        $cache_key = 'ygb_sfood_suggestions_' . md5($term);
+        $cached = get_transient($cache_key);
+        
+        if (false !== $cached) {
+            /**
+             * Acción: Se usó caché en sugerencias.
+             * 
+             * @since 5.15.0
+             * @param string $term Término buscado.
+             * @param array $cached Datos en caché.
+             */
+            do_action('ygb_sfood_suggestions_cache_hit', $term, $cached);
+            wp_send_json_success($cached);
+        }
+        
         $productos = wc_get_products([
             'status' => 'publish',
             'limit' => 5,
@@ -697,6 +759,18 @@ class YGB_SFood {
                 'value' => $p->get_name()
             ];
         }
+        
+        set_transient($cache_key, $sug, $cache_time);
+        
+        /**
+         * Acción: Sugerencias generadas (sin caché).
+         * 
+         * @since 5.15.0
+         * @param string $term Término buscado.
+         * @param array $sug Lista de sugerencias.
+         */
+        do_action('ygb_sfood_suggestions_generated', $term, $sug);
+        
         wp_send_json_success($sug);
     }
 
