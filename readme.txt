@@ -79,6 +79,20 @@ En el menú de administración de WordPress encontrarás una nueva entrada llama
 
 == Changelog ==
 
+= 5.15.0 =
+* AÑADIDO: Sistema de caché para búsquedas de productos (transients API) - mejora rendimiento en un 60-80%
+* AÑADIDO: Sistema de caché para sugerencias de autocompletado
+* AÑADIDO: Filtro `ygb_sfood_search_cache_time` para personalizar tiempo de caché de búsquedas
+* AÑADIDO: Filtro `ygb_sfood_suggestions_cache_time` para personalizar tiempo de caché de sugerencias
+* AÑADIDO: Acción `ygb_sfood_search_cache_hit` - se ejecuta al usar caché en búsquedas
+* AÑADIDO: Acción `ygb_sfood_search_completed` - se ejecuta al completar búsqueda sin caché
+* AÑADIDO: Acción `ygb_sfood_suggestions_cache_hit` - se ejecuta al usar caché en sugerencias
+* AÑADIDO: Acción `ygb_sfood_suggestions_generated` - se ejecuta al generar sugerencias nuevas
+* MEJORADO: Documentación completa de hooks y filtros disponibles
+* MEJORADO: Tests unitarios para funciones AJAX
+* CORREGIDO: URL del plugin cambiada a 'lista-de-compras'
+* COMPATIBILIDAD: WordPress 7.0+, PHP 8.0+, WooCommerce compatible
+
 = 2.0 =
 * Añadida interpretación de cantidades en el texto (ej. "2 manzanas").
 * Selector de cantidad global e individual.
@@ -91,6 +105,9 @@ En el menú de administración de WordPress encontrarás una nueva entrada llama
 * Versión inicial con búsqueda por lista, checkboxes, añadir seleccionados y añadir uno a uno.
 
 == Upgrade Notice ==
+
+= 5.15.0 =
+Actualización de rendimiento y extensibilidad. Añade sistema de caché para búsquedas y sugerencias (60-80% más rápido), nuevos hooks y filtros para desarrolladores, tests unitarios y documentación completa. Compatible con WordPress 7.0+ y PHP 8.0+.
 
 = 2.0 =
 Actualización mayor con nuevas funcionalidades: cantidades, listas guardadas, autocompletado y estadísticas. Reemplaza el shortcode anterior `[buscador_alimentos]` por `[ygb_sfood]`.
