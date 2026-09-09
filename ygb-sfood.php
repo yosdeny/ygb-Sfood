@@ -602,7 +602,11 @@ class YGB_SFood {
                             '<input type="number" class="ygb-cantidad" data-id="'+p.id+'" value="'+qtyVal+'" min="1" step="1" />' +
                             '<button type="button" class="ygb-qty-plus" data-id="'+p.id+'">+</button>' +
                             '</div>';
+                    } else if (!enStock) {
+                        // Producto agotado: mostrar solo el 0 centrado
+                        quantityControl = '<div class="ygb-quantity-control" style="text-align:center;width:40px;"><input type="number" class="ygb-cantidad" value="0" min="0" disabled style="text-align:center;" /></div>';
                     } else {
+                        // En carrito: mostrar cantidad deshabilitada
                         quantityControl = '<input type="number" class="ygb-cantidad" data-id="'+p.id+'" value="'+qtyVal+'" min="0" disabled />';
                     }
                     html += '<div class="ygb-producto">';
