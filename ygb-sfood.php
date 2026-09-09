@@ -1,10 +1,17 @@
 <?php
 /**
  * Plugin Name: ygb-sfood
+ * Plugin URI: https://github.com/yosdeny
  * Description: Buscador de alimentos con controles +- en cantidad, admin-ajax, colores personalizables, responsive.
  * Version: 5.15.0
- * Author: ygb
+ * Author: YGB
+ * Author URI: https://github.com/yosdeny
+ * Requires at least: 7.0
+ * Tested up to: 7.1
  * Requires PHP: 8.0
+ * Tested PHP: 8.2
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: ygb-sfood
  * Domain Path: /languages
  */
