@@ -2,9 +2,11 @@
 /**
  * Plugin Name: ygb-sfood
  * Description: Buscador de alimentos con controles +- en cantidad, admin-ajax, colores personalizables, responsive.
- * Version: 5.14.1
+ * Version: 5.15.0
  * Author: ygb
  * Requires PHP: 8.0
+ * Text Domain: ygb-sfood
+ * Domain Path: /languages
  */
 
 if (!defined('ABSPATH')) exit;
@@ -82,12 +84,10 @@ class YGB_SFood {
     }
 
     public function admin_enqueue_scripts($hook) {
-        if (strpos($hook, 'ygb-personalizar') === false) return;
+        if (strpos($hook, 'ygb-personalizar') === false && strpos($hook, 'ygb-sfood') === false) return;
         wp_enqueue_style('wp-color-picker');
         wp_enqueue_script('wp-color-picker');
-        add_action('admin_footer', function() {
-            echo '<script>jQuery(function($){ $(".ygb-color-field").wpColorPicker(); });</script>';
-        });
+        wp_add_inline_script('wp-color-picker', '(function($){ $(document).ready(function(){ $(".ygb-color-field").wpColorPicker(); }); })(jQuery);');
     }
 
     public function init() {
@@ -119,20 +119,20 @@ class YGB_SFood {
     }
 
     public function admin_dashboard() {
-        echo '<div class="wrap"><h1>ygb-sfood</h1>';
-        echo '<p>Shortcode: <code>[ygb_sfood]</code> | Enlace directo: <a href="' . esc_url(home_url('/' . $this->blank_slug . '/')) . '" target="_blank">Abrir buscador</a></p>';
+        echo '<div class="wrap"><h1>' . esc_html__('ygb-sfood', 'ygb-sfood') . '</h1>';
+        echo '<p>' . esc_html__('Shortcode:', 'ygb-sfood') . ' <code>[ygb_sfood]</code> | ' . esc_html__('Enlace directo:', 'ygb-sfood') . ' <a href="' . esc_url(home_url('/' . $this->blank_slug . '/')) . '" target="_blank">' . esc_html__('Abrir buscador', 'ygb-sfood') . '</a></p>';
         echo '</div>';
     }
 
     // ✅ Corregido: eliminado "lakang" y estructura HTML válida
     public function admin_estadisticas() {
         $datos = $this->db->get_results("SELECT * FROM {$this->table_name} ORDER BY fecha DESC LIMIT 100");
-        echo '<div class="wrap"><h1>Estadísticas</h1><table class="wp-list-table widefat fixed striped"><thead><tr><th>ID</th><th>Término</th><th>Encontrados</th><th>Agregados</th><th>Fecha</th></tr></thead><tbody>';
+        echo '<div class="wrap"><h1>' . esc_html__('Estadísticas', 'ygb-sfood') . '</h1><table class="wp-list-table widefat fixed striped"><thead><tr><th>ID</th><th>' . esc_html__('Término', 'ygb-sfood') . '</th><th>' . esc_html__('Encontrados', 'ygb-sfood') . '</th><th>' . esc_html__('Agregados', 'ygb-sfood') . '</th><th>' . esc_html__('Fecha', 'ygb-sfood') . '</th></tr></thead><tbody>';
         if (empty($datos)) {
-            echo '<tr><td colspan="5">No hay registros aún.</td></tr>';
+            echo '<tr><td colspan="5">' . esc_html__('No hay registros aún.', 'ygb-sfood') . '</td></tr>';
         } else {
             foreach ($datos as $fila) {
-                echo "<tr><td>{$fila->id}</td><td>" . esc_html($fila->termino) . "</td><td>{$fila->productos_encontrados}</td><td>{$fila->productos_agregados}</td><td>{$fila->fecha}</td></tr>";
+                echo "<tr><td>" . esc_html($fila->id) . "</td><td>" . esc_html($fila->termino) . "</td><td>" . esc_html($fila->productos_encontrados) . "</td><td>" . esc_html($fila->productos_agregados) . "</td><td>" . esc_html($fila->fecha) . "</td></tr>";
             }
         }
         echo '</tbody></table></div>';
@@ -149,7 +149,7 @@ class YGB_SFood {
             update_option('ygb_button_border_hover', sanitize_hex_color($_POST['ygb_button_border_hover']));
             update_option('ygb_button_radius', sanitize_text_field($_POST['ygb_button_radius']));
             update_option('ygb_results_bg', sanitize_hex_color($_POST['ygb_results_bg']));
-            echo '<div class="notice notice-success"><p>Colores guardados.</p></div>';
+            echo '<div class="notice notice-success"><p>' . esc_html__('Colores guardados.', 'ygb-sfood') . '</p></div>';
         }
         $button_bg = get_option('ygb_button_bg', '#2c7a46');
         $button_text = get_option('ygb_button_text', '#ffffff');
@@ -160,20 +160,20 @@ class YGB_SFood {
         $button_radius = get_option('ygb_button_radius', '6px');
         $results_bg = get_option('ygb_results_bg', '#f9f9f9');
         ?>
-        <div class="wrap"><h1>Personalizar colores</h1>
+        <div class="wrap"><h1><?php echo esc_html__('Personalizar colores', 'ygb-sfood'); ?></h1>
         <form method="post">
             <?php wp_nonce_field('ygb_colors_nonce'); ?>
             <table class="form-table">
-                <tr><th>Fondo botón</th><td><input type="text" name="ygb_button_bg" value="<?php echo esc_attr($button_bg); ?>" class="ygb-color-field" /></td></tr>
-                <tr><th>Texto botón</th><td><input type="text" name="ygb_button_text" value="<?php echo esc_attr($button_text); ?>" class="ygb-color-field" /></td></tr>
-                <tr><th>Borde botón</th><td><input type="text" name="ygb_button_border" value="<?php echo esc_attr($button_border); ?>" class="ygb-color-field" /></td></tr>
-                <tr><th>Fondo hover</th><td><input type="text" name="ygb_button_bg_hover" value="<?php echo esc_attr($button_bg_hover); ?>" class="ygb-color-field" /></td></tr>
-                <tr><th>Texto hover</th><td><input type="text" name="ygb_button_text_hover" value="<?php echo esc_attr($button_text_hover); ?>" class="ygb-color-field" /></td></tr>
-                <tr><th>Borde hover</th><td><input type="text" name="ygb_button_border_hover" value="<?php echo esc_attr($button_border_hover); ?>" class="ygb-color-field" /></td></tr>
-                <tr><th>Radio borde</th><td><input type="text" name="ygb_button_radius" value="<?php echo esc_attr($button_radius); ?>" /></td></tr>
-                <tr><th>Fondo resultados</th><td><input type="text" name="ygb_results_bg" value="<?php echo esc_attr($results_bg); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Fondo botón', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_button_bg" value="<?php echo esc_attr($button_bg); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Texto botón', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_button_text" value="<?php echo esc_attr($button_text); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Borde botón', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_button_border" value="<?php echo esc_attr($button_border); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Fondo hover', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_button_bg_hover" value="<?php echo esc_attr($button_bg_hover); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Texto hover', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_button_text_hover" value="<?php echo esc_attr($button_text_hover); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Borde hover', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_button_border_hover" value="<?php echo esc_attr($button_border_hover); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Radio borde', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_button_radius" value="<?php echo esc_attr($button_radius); ?>" /></td></tr>
+                <tr><th><?php echo esc_html__('Fondo resultados', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_results_bg" value="<?php echo esc_attr($results_bg); ?>" class="ygb-color-field" /></td></tr>
             </table>
-            <p class="submit"><input type="submit" name="ygb_save_colors" class="button-primary" value="Guardar" /></p>
+            <p class="submit"><input type="submit" name="ygb_save_colors" class="button-primary" value="<?php echo esc_attr__('Guardar', 'ygb-sfood'); ?>" /></p>
         </form></div>
         <?php
     }
@@ -564,28 +564,41 @@ class YGB_SFood {
     }
 
     private function check_ajax() {
-        check_ajax_referer('ygb_nonce', 'nonce');
+        check_ajax_referer('ygb_nonce', 'nonce', true);
         $this->maybe_init_wc_ajax();
-        if (!class_exists('WooCommerce')) wp_send_json_error('WooCommerce no activo.');
+        if (!class_exists('WooCommerce')) {
+            wp_send_json_error(__('WooCommerce no activo.', 'ygb-sfood'));
+        }
     }
 
     public function buscar() {
         $this->check_ajax();
         $input = sanitize_text_field($_POST['query'] ?? '');
-        if (empty($input)) wp_send_json_error('Sin búsqueda.');
+        if (empty($input)) {
+            wp_send_json_error(__('Sin búsqueda.', 'ygb-sfood'));
+        }
         $items = $this->parsear($input);
-        if (empty($items)) wp_send_json_error('Ingresa alimentos.');
+        if (empty($items)) {
+            wp_send_json_error(__('Ingresa alimentos.', 'ygb-sfood'));
+        }
 
         $cart_ids = [];
         if (WC()->cart) {
-            foreach (WC()->cart->get_cart() as $item) $cart_ids[] = $item['product_id'];
+            foreach (WC()->cart->get_cart() as $item) {
+                $cart_ids[] = $item['product_id'];
+            }
         }
         $cart_ids = array_unique($cart_ids);
 
         $resultados = [];
         $cantidades = [];
         foreach ($items as $item) {
-            $productos = wc_get_products(['status'=>'publish','limit'=>5,'s'=>$item['nombre'],'type'=>'simple']);
+            $productos = wc_get_products([
+                'status' => 'publish',
+                'limit' => 5,
+                's' => $item['nombre'],
+                'type' => 'simple'
+            ]);
             foreach ($productos as $p) {
                 $pid = $p->get_id();
                 if (!isset($resultados[$pid])) {
@@ -594,7 +607,7 @@ class YGB_SFood {
                         'nombre' => $p->get_name(),
                         'precio' => $p->get_price_html(),
                         'imagen' => wp_get_attachment_image_url($p->get_image_id(), 'thumbnail') ?: wc_placeholder_img_src('thumbnail'),
-                        'en_carrito' => in_array($pid, $cart_ids),
+                        'en_carrito' => in_array($pid, $cart_ids, true),
                         'in_stock' => $p->is_in_stock()
                     ];
                 }
@@ -603,10 +616,15 @@ class YGB_SFood {
                 }
             }
         }
-        foreach ($resultados as $pid => &$data) $data['cantidad'] = $cantidades[$pid] ?? 1;
-        if (empty($resultados)) { $this->log($input,0,0); wp_send_json_error('No encontrado.'); }
+        foreach ($resultados as $pid => &$data) {
+            $data['cantidad'] = $cantidades[$pid] ?? 1;
+        }
+        if (empty($resultados)) {
+            $this->log($input, 0, 0);
+            wp_send_json_error(__('No encontrado.', 'ygb-sfood'));
+        }
         $this->log($input, count($resultados), 0);
-        wp_send_json_success(['productos'=>array_values($resultados)]);
+        wp_send_json_success(['productos' => array_values($resultados)]);
     }
 
     public function agregar() {
@@ -614,99 +632,170 @@ class YGB_SFood {
         $ids = array_map('intval', $_POST['ids'] ?? []);
         $qtys = array_map('intval', $_POST['qtys'] ?? []);
         $ids = array_filter($ids);
-        if (empty($ids)) wp_send_json_error('Selecciona productos.');
+        if (empty($ids)) {
+            wp_send_json_error(__('Selecciona productos.', 'ygb-sfood'));
+        }
 
-        $agregados = 0; $rechazados = 0;
+        $agregados = 0;
+        $rechazados = 0;
         foreach ($ids as $i => $pid) {
             $producto = wc_get_product($pid);
             if ($producto && $producto->is_purchasable() && $producto->is_in_stock()) {
                 $qty = isset($qtys[$i]) ? max(1, $qtys[$i]) : 1;
                 $cart_item_key = WC()->cart->add_to_cart($pid, $qty);
-                if ($cart_item_key) $agregados += $qty; else $rechazados++;
-            } else { $rechazados++; }
+                if ($cart_item_key) {
+                    $agregados += $qty;
+                } else {
+                    $rechazados++;
+                }
+            } else {
+                $rechazados++;
+            }
         }
 
         if ($agregados > 0) {
             $this->log('', 0, $agregados);
-            $mensaje = "$agregados unidad(es) añadida(s).";
-            if ($rechazados > 0) $mensaje .= " $rechazados producto(s) no disponibles.";
+            $mensaje = sprintf(
+                _n('%d unidad añadida.', '%d unidades añadidas.', $agregados, 'ygb-sfood'),
+                $agregados
+            );
+            if ($rechazados > 0) {
+                $mensaje .= ' ' . sprintf(
+                    _n('%d producto no disponible.', '%d productos no disponibles.', $rechazados, 'ygb-sfood'),
+                    $rechazados
+                );
+            }
             wp_send_json_success(['mensaje' => $mensaje]);
         } else {
-            wp_send_json_error('Ninguno de los productos seleccionados está disponible.');
+            wp_send_json_error(__('Ninguno de los productos seleccionados está disponible.', 'ygb-sfood'));
         }
     }
 
-    public function sugerencias(){ 
-        $this->check_ajax(); 
-        $term = sanitize_text_field($_POST['term'] ?? ''); 
-        if (empty($term)) wp_send_json_success([]); 
-        $productos = wc_get_products(['status'=>'publish','limit'=>5,'s'=>$term,'type'=>'simple']); 
-        $sug = []; 
-        foreach($productos as $p) $sug[] = ['label'=>$p->get_name(),'value'=>$p->get_name()]; 
-        wp_send_json_success($sug); 
+    public function sugerencias() {
+        $this->check_ajax();
+        $term = sanitize_text_field($_POST['term'] ?? '');
+        if (empty($term)) {
+            wp_send_json_success([]);
+        }
+        $productos = wc_get_products([
+            'status' => 'publish',
+            'limit' => 5,
+            's' => $term,
+            'type' => 'simple'
+        ]);
+        $sug = [];
+        foreach ($productos as $p) {
+            $sug[] = [
+                'label' => $p->get_name(),
+                'value' => $p->get_name()
+            ];
+        }
+        wp_send_json_success($sug);
     }
 
-    public function guardar_lista(){ 
-        check_ajax_referer('ygb_nonce','nonce'); 
-        if(!is_user_logged_in()) wp_send_json_error('Inicia sesión.'); 
-        $query = sanitize_text_field($_POST['query'] ?? ''); 
-        if(empty($query)) wp_send_json_error('Sin lista.'); 
-        $nombre = sanitize_text_field($_POST['nombre'] ?? ''); 
-        if(empty($nombre)) $nombre = $query; 
-        $user_id = get_current_user_id(); 
-        $listas = get_user_meta($user_id,'ygb_listas',true); 
-        if(!is_array($listas)) $listas = []; 
-        $listas = array_map(function($i){ return is_array($i) ? $i : ['nombre'=>$i,'consulta'=>$i]; }, $listas); 
-        $listas[] = ['nombre'=>$nombre,'consulta'=>$query]; 
-        update_user_meta($user_id,'ygb_listas',$listas); 
-        wp_send_json_success(['listas'=>$listas]); 
+    public function guardar_lista() {
+        check_ajax_referer('ygb_nonce', 'nonce');
+        if (!is_user_logged_in()) {
+            wp_send_json_error(__('Inicia sesión.', 'ygb-sfood'));
+        }
+        $query = sanitize_text_field($_POST['query'] ?? '');
+        if (empty($query)) {
+            wp_send_json_error(__('Sin lista.', 'ygb-sfood'));
+        }
+        $nombre = sanitize_text_field($_POST['nombre'] ?? '');
+        if (empty($nombre)) {
+            $nombre = $query;
+        }
+        $user_id = get_current_user_id();
+        $listas = get_user_meta($user_id, 'ygb_listas', true);
+        if (!is_array($listas)) {
+            $listas = [];
+        }
+        $listas = array_map(function($i) {
+            return is_array($i) ? $i : ['nombre' => $i, 'consulta' => $i];
+        }, $listas);
+        $listas[] = ['nombre' => $nombre, 'consulta' => $query];
+        update_user_meta($user_id, 'ygb_listas', $listas);
+        wp_send_json_success(['listas' => $listas]);
     }
 
-    public function cargar_listas(){ 
-        check_ajax_referer('ygb_nonce','nonce'); 
-        if(!is_user_logged_in()) wp_send_json_error('Inicia sesión.'); 
-        $listas = get_user_meta(get_current_user_id(),'ygb_listas',true); 
-        if(!is_array($listas)) $listas = []; 
-        $listas = array_map(function($i){ return is_array($i) ? $i : ['nombre'=>$i,'consulta'=>$i]; }, $listas); 
-        wp_send_json_success(['listas'=>$listas]); 
+    public function cargar_listas() {
+        check_ajax_referer('ygb_nonce', 'nonce');
+        if (!is_user_logged_in()) {
+            wp_send_json_error(__('Inicia sesión.', 'ygb-sfood'));
+        }
+        $listas = get_user_meta(get_current_user_id(), 'ygb_listas', true);
+        if (!is_array($listas)) {
+            $listas = [];
+        }
+        $listas = array_map(function($i) {
+            return is_array($i) ? $i : ['nombre' => $i, 'consulta' => $i];
+        }, $listas);
+        wp_send_json_success(['listas' => $listas]);
     }
 
-    public function eliminar_lista(){ 
-        check_ajax_referer('ygb_nonce','nonce'); 
-        if(!is_user_logged_in()) wp_send_json_error('Inicia sesión.'); 
-        $index = intval($_POST['index'] ?? -1); 
-        $listas = get_user_meta(get_current_user_id(),'ygb_listas',true); 
-        if(!is_array($listas)) wp_send_json_error('No hay listas.'); 
-        if(isset($listas[$index])){ 
-            array_splice($listas,$index,1); 
-            update_user_meta(get_current_user_id(),'ygb_listas',$listas); 
-            wp_send_json_success(['listas'=>$listas]); 
-        } 
-        wp_send_json_error('Índice inválido.'); 
+    public function eliminar_lista() {
+        check_ajax_referer('ygb_nonce', 'nonce');
+        if (!is_user_logged_in()) {
+            wp_send_json_error(__('Inicia sesión.', 'ygb-sfood'));
+        }
+        $index = intval($_POST['index'] ?? -1);
+        $listas = get_user_meta(get_current_user_id(), 'ygb_listas', true);
+        if (!is_array($listas)) {
+            wp_send_json_error(__('No hay listas.', 'ygb-sfood'));
+        }
+        if (isset($listas[$index])) {
+            array_splice($listas, $index, 1);
+            update_user_meta(get_current_user_id(), 'ygb_listas', $listas);
+            wp_send_json_success(['listas' => $listas]);
+        }
+        wp_send_json_error(__('Índice inválido.', 'ygb-sfood'));
     }
 
-    public function estado_carrito(){ 
-        $this->check_ajax(); 
-        $estado = []; 
-        if(WC()->cart) foreach(WC()->cart->get_cart() as $item) $estado[$item['product_id']] = $item['quantity']; 
-        wp_send_json_success($estado); 
+    public function estado_carrito() {
+        $this->check_ajax();
+        $estado = [];
+        if (WC()->cart) {
+            foreach (WC()->cart->get_cart() as $item) {
+                $estado[$item['product_id']] = $item['quantity'];
+            }
+        }
+        wp_send_json_success($estado);
     }
 
-    private function parsear($input){ 
-        $partes = preg_split('/[,y]+/u',$input); 
-        $items = []; 
-        foreach($partes as $parte){ 
-            if(count($items) >= self::MAX_ITEMS) break; 
-            $parte = trim($parte); 
-            if(empty($parte)) continue; 
-            if(preg_match('/^(\d+)\s+(.+)/u',$parte,$m)) $items[] = ['nombre'=>trim($m[2]),'cantidad'=>max(1,intval($m[1]))]; 
-            else $items[] = ['nombre'=>trim($parte),'cantidad'=>1]; 
-        } 
-        return $items; 
+    private function parsear($input) {
+        $partes = preg_split('/[,y]+/u', $input);
+        $items = [];
+        foreach ($partes as $parte) {
+            if (count($items) >= self::MAX_ITEMS) {
+                break;
+            }
+            $parte = trim($parte);
+            if (empty($parte)) {
+                continue;
+            }
+            if (preg_match('/^(\d+)\s+(.+)/u', $parte, $m)) {
+                $items[] = [
+                    'nombre' => trim($m[2]),
+                    'cantidad' => max(1, intval($m[1]))
+                ];
+            } else {
+                $items[] = [
+                    'nombre' => trim($parte),
+                    'cantidad' => 1
+                ];
+            }
+        }
+        return $items;
     }
 
-    private function log($termino,$enc,$agr){ 
-        $this->db->insert($this->table_name,['termino'=>$termino?:'--','productos_encontrados'=>$enc,'productos_agregados'=>$agr,'fecha'=>current_time('mysql')]); 
+    private function log($termino, $enc, $agr) {
+        $this->db->insert($this->table_name, [
+            'termino' => $termino ?: '--',
+            'productos_encontrados' => $enc,
+            'productos_agregados' => $agr,
+            'fecha' => current_time('mysql')
+        ]);
     }
 }
 new YGB_SFood();
