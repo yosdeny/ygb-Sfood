@@ -108,24 +108,35 @@ class YGB_SFood {
     private function set_default_colors() {
         $theme_colors = $this->get_theme_colors();
         
-        // Colores base proporcionados
+        // Colores base proporcionados (nuevos valores)
+        $base_boton_bg = '#ffffff';
+        $base_boton_text = '#61ce70';
+        $base_boton_border = '#61ce70';
+        $base_boton_hover_bg = '#ffffff';
+        $base_boton_hover_text = '#E26143';
+        $base_boton_hover_border = '#61ce70';
+        $base_precio = '#dd3333';
         $base_verde = '#61CE70';
         $base_naranja = '#E26143';
         $base_dorado = '#dd9933';
         $base_gris = '#f2f2f2';
         
         // Usar colores del tema si están disponibles, sino usar defaults
-        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : $base_verde;
-        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : $base_naranja;
+        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : $base_boton_bg;
+        $default_button_text = $base_boton_text;
+        $default_button_border = $base_boton_border;
+        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : $base_boton_hover_bg;
+        $default_button_text_hover = $base_boton_hover_text;
+        $default_button_border_hover = $base_boton_hover_border;
         $default_results_bg = isset($theme_colors['background']) ? $theme_colors['background'] : $base_gris;
         
         if (false === get_option('ygb_button_bg')) {
             update_option('ygb_button_bg', $default_button_bg);
-            update_option('ygb_button_text', '#ffffff');
-            update_option('ygb_button_border', $default_button_bg);
+            update_option('ygb_button_text', $default_button_text);
+            update_option('ygb_button_border', $default_button_border);
             update_option('ygb_button_bg_hover', $default_button_bg_hover);
-            update_option('ygb_button_text_hover', '#ffffff');
-            update_option('ygb_button_border_hover', $default_button_bg_hover);
+            update_option('ygb_button_text_hover', $default_button_text_hover);
+            update_option('ygb_button_border_hover', $default_button_border_hover);
             update_option('ygb_button_radius', '6px');
             update_option('ygb_results_bg', $default_results_bg);
             update_option('ygb_sidebar_bg', $base_gris);
@@ -135,7 +146,7 @@ class YGB_SFood {
             update_option('ygb_input_border', '#cccccc');
             update_option('ygb_product_bg', '#ffffff');
             update_option('ygb_product_text', '#333333');
-            update_option('ygb_price_color', '#555555');
+            update_option('ygb_price_color', $base_precio);
             update_option('ygb_quantity_bg', '#ffffff');
             update_option('ygb_quantity_text', '#333333');
             update_option('ygb_quantity_button_bg', '#f0f0f0');
@@ -234,20 +245,32 @@ class YGB_SFood {
         
         // Obtener colores del tema si no hay opciones guardadas
         $theme_colors = $this->get_theme_colors();
+        // Colores base proporcionados (nuevos valores)
+        $base_boton_bg = '#ffffff';
+        $base_boton_text = '#61ce70';
+        $base_boton_border = '#61ce70';
+        $base_boton_hover_bg = '#ffffff';
+        $base_boton_hover_text = '#E26143';
+        $base_boton_hover_border = '#61ce70';
+        $base_precio = '#dd3333';
         $base_verde = '#61CE70';
         $base_naranja = '#E26143';
         $base_dorado = '#dd9933';
         $base_gris = '#f2f2f2';
-        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : $base_verde;
-        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : $base_naranja;
+        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : $base_boton_bg;
+        $default_button_text = $base_boton_text;
+        $default_button_border = $base_boton_border;
+        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : $base_boton_hover_bg;
+        $default_button_text_hover = $base_boton_hover_text;
+        $default_button_border_hover = $base_boton_hover_border;
         $default_results_bg = isset($theme_colors['background']) ? $theme_colors['background'] : $base_gris;
         
         $button_bg = get_option('ygb_button_bg', $default_button_bg);
-        $button_text = get_option('ygb_button_text', '#ffffff');
-        $button_border = get_option('ygb_button_border', $default_button_bg);
+        $button_text = get_option('ygb_button_text', $default_button_text);
+        $button_border = get_option('ygb_button_border', $default_button_border);
         $button_bg_hover = get_option('ygb_button_bg_hover', $default_button_bg_hover);
-        $button_text_hover = get_option('ygb_button_text_hover', '#ffffff');
-        $button_border_hover = get_option('ygb_button_border_hover', $default_button_bg_hover);
+        $button_text_hover = get_option('ygb_button_text_hover', $default_button_text_hover);
+        $button_border_hover = get_option('ygb_button_border_hover', $default_button_border_hover);
         $button_radius = get_option('ygb_button_radius', '6px');
         $results_bg = get_option('ygb_results_bg', $default_results_bg);
         $sidebar_bg = get_option('ygb_sidebar_bg', $base_gris);
@@ -257,7 +280,7 @@ class YGB_SFood {
         $input_border = get_option('ygb_input_border', '#cccccc');
         $product_bg = get_option('ygb_product_bg', '#ffffff');
         $product_text = get_option('ygb_product_text', '#333333');
-        $price_color = get_option('ygb_price_color', '#555555');
+        $price_color = get_option('ygb_price_color', $base_precio);
         $quantity_bg = get_option('ygb_quantity_bg', '#ffffff');
         $quantity_text = get_option('ygb_quantity_text', '#333333');
         $quantity_button_bg = get_option('ygb_quantity_button_bg', '#f0f0f0');
@@ -268,7 +291,7 @@ class YGB_SFood {
         $header_text = get_option('ygb_header_text', '#333333');
         ?>
         <div class="wrap"><h1><?php echo esc_html__('Personalizar colores del plugin', 'ygb-sfood'); ?></h1>
-        <p><?php echo esc_html__('Usa estos colores como base: #61CE70 (verde), #E26143 (naranja), #dd9933 (dorado), #f2f2f2 (gris claro)', 'ygb-sfood'); ?></p>
+        <p><?php echo esc_html__('Colores base actuales: Botón (fondo #ffffff, texto #61ce70, borde #61ce70), Hover (fondo #ffffff, texto #E26143, borde #61ce70), Precio (#dd3333)', 'ygb-sfood'); ?></p>
         <form method="post">
             <?php wp_nonce_field('ygb_colors_nonce'); ?>
             <h2><?php echo esc_html__('Botones Principales', 'ygb-sfood'); ?></h2>
@@ -336,20 +359,32 @@ class YGB_SFood {
 
         // Obtener colores del tema si no hay opciones guardadas
         $theme_colors = $this->get_theme_colors();
+        // Colores base proporcionados (nuevos valores)
+        $base_boton_bg = '#ffffff';
+        $base_boton_text = '#61ce70';
+        $base_boton_border = '#61ce70';
+        $base_boton_hover_bg = '#ffffff';
+        $base_boton_hover_text = '#E26143';
+        $base_boton_hover_border = '#61ce70';
+        $base_precio = '#dd3333';
         $base_verde = '#61CE70';
         $base_naranja = '#E26143';
         $base_dorado = '#dd9933';
         $base_gris = '#f2f2f2';
-        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : $base_verde;
-        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : $base_naranja;
+        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : $base_boton_bg;
+        $default_button_text = $base_boton_text;
+        $default_button_border = $base_boton_border;
+        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : $base_boton_hover_bg;
+        $default_button_text_hover = $base_boton_hover_text;
+        $default_button_border_hover = $base_boton_hover_border;
         $default_results_bg = isset($theme_colors['background']) ? $theme_colors['background'] : $base_gris;
 
         $button_bg = get_option('ygb_button_bg', $default_button_bg);
-        $button_text = get_option('ygb_button_text', '#ffffff');
-        $button_border = get_option('ygb_button_border', $default_button_bg);
+        $button_text = get_option('ygb_button_text', $default_button_text);
+        $button_border = get_option('ygb_button_border', $default_button_border);
         $button_bg_hover = get_option('ygb_button_bg_hover', $default_button_bg_hover);
-        $button_text_hover = get_option('ygb_button_text_hover', '#ffffff');
-        $button_border_hover = get_option('ygb_button_border_hover', $default_button_bg_hover);
+        $button_text_hover = get_option('ygb_button_text_hover', $default_button_text_hover);
+        $button_border_hover = get_option('ygb_button_border_hover', $default_button_border_hover);
         $button_radius = get_option('ygb_button_radius', '6px');
         $results_bg = get_option('ygb_results_bg', $default_results_bg);
         $sidebar_bg = get_option('ygb_sidebar_bg', $base_gris);
@@ -359,7 +394,7 @@ class YGB_SFood {
         $input_border = get_option('ygb_input_border', '#cccccc');
         $product_bg = get_option('ygb_product_bg', '#ffffff');
         $product_text = get_option('ygb_product_text', '#333333');
-        $price_color = get_option('ygb_price_color', '#555555');
+        $price_color = get_option('ygb_price_color', $base_precio);
         $quantity_bg = get_option('ygb_quantity_bg', '#ffffff');
         $quantity_text = get_option('ygb_quantity_text', '#333333');
         $quantity_button_bg = get_option('ygb_quantity_button_bg', '#f0f0f0');
