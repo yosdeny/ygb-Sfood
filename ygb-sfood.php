@@ -264,24 +264,24 @@ class YGB_SFood {
         ob_start();
         ?>
         <style>
-            #ygb-app { font-family: sans-serif; max-width: 900px; margin: 20px auto; }
-            .ygb-layout { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+            #ygb-app { font-family: sans-serif; max-width: 900px; margin: 0 auto; padding: 5px 0; }
+            .ygb-layout { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; }
             .ygb-main { flex: 1; min-width: 300px; }
-            .ygb-sidebar { width: 220px; background: <?php echo esc_attr($results_bg); ?>; padding: 15px; border-radius: 8px; }
-            .ygb-sidebar h4 { margin-top: 0; }
+            .ygb-sidebar { width: 220px; background: <?php echo esc_attr($results_bg); ?>; padding: 10px; border-radius: 6px; }
+            .ygb-sidebar h4 { margin: 0 0 8px 0; font-size: 16px; }
             #ygb-app input[type="text"] { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; }
-            .ygb-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 15px 0; }
+            .ygb-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 10px 0; }
             #ygb-buscar, #ygb-guardar { height: 38px; line-height: 38px; padding: 0 15px; cursor: pointer; }
-            .ygb-producto { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; }
+            .ygb-producto { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; }
             .ygb-col-checkbox { width: 30px; flex-shrink: 0; text-align: center; }
             .ygb-col-imagen { width: 50px; flex-shrink: 0; }
             .ygb-col-info { flex: 2; }
             .ygb-col-cantidad { width: 110px; flex-shrink: 0; text-align: center; }
             .ygb-col-accion { width: 110px; flex-shrink: 0; text-align: center; }
             .ygb-producto img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; display: block; }
-            .ygb-info { display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; gap: 8px; }
-            .ygb-info strong { font-weight: bold; }
-            .ygb-info .product-price { color: #555; }
+            .ygb-info { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+            .ygb-info strong { font-weight: bold; font-size: 14px; }
+            .ygb-info .product-price { color: #555; font-size: 13px; }
             .ygb-quantity-control { display: inline-flex; align-items: center; gap: 4px; background: white; border: 1px solid #ccc; border-radius: 4px; height: 38px; box-sizing: border-box; overflow: hidden; }
             .ygb-quantity-control button { width: 30px; height: 36px; background: #f0f0f0; color: #333; border: none; cursor: pointer; font-size: 18px; font-weight: bold; line-height: 1; margin: 0; padding: 0; border-radius: 0; transition: background 0.2s; }
             .ygb-quantity-control button:hover { background: #e0e0e0; }
@@ -294,13 +294,13 @@ class YGB_SFood {
             button.ygb-add-one { background-color: <?php echo esc_attr($button_bg); ?>; color: <?php echo esc_attr($button_text); ?>; border: 1px solid <?php echo esc_attr($button_border); ?>; }
             button.ygb-add-one:hover { background-color: <?php echo esc_attr($button_bg_hover); ?>; color: <?php echo esc_attr($button_text_hover); ?>; border-color: <?php echo esc_attr($button_border_hover); ?>; }
             span.ygb-accion { border: 1px solid transparent; background: transparent; color: #c00; }
-            .ygb-lista-item { display: block; background: #eee; padding: 6px 10px; margin: 4px 0; border-radius: 6px; cursor: pointer; font-size: 14px; position: relative; }
-            .ygb-lista-item .nombre { display: block; font-weight: bold; margin-bottom: 2px; }
-            .ygb-lista-item .consulta { display: block; font-size: 12px; color: #555; word-break: break-word; }
-            .ygb-lista-item .eliminar { position: absolute; right: 6px; top: 6px; color: red; cursor: pointer; font-weight: bold; font-size: 14px; }
+            .ygb-lista-item { display: block; background: #eee; padding: 5px 8px; margin: 3px 0; border-radius: 4px; cursor: pointer; font-size: 13px; position: relative; }
+            .ygb-lista-item .nombre { display: block; font-weight: bold; margin-bottom: 1px; }
+            .ygb-lista-item .consulta { display: block; font-size: 11px; color: #555; word-break: break-word; }
+            .ygb-lista-item .eliminar { position: absolute; right: 5px; top: 4px; color: red; cursor: pointer; font-weight: bold; font-size: 13px; }
             @media (max-width: 600px) {
                 .ygb-layout { flex-direction: column; }
-                .ygb-sidebar { width: 100%; order: 2; margin-top: 20px; }
+                .ygb-sidebar { width: 100%; order: 2; margin-top: 10px; }
                 .ygb-main { order: 1; }
                 .ygb-producto { flex-wrap: wrap; gap: 8px; }
                 .ygb-col-checkbox { order: 1; width: 30px; flex: 0 0 auto; }
@@ -318,20 +318,20 @@ class YGB_SFood {
         <div id="ygb-app">
             <div class="ygb-layout">
                 <div class="ygb-main">
-                    <div><label>Tu lista de compras mas facil que nunca.</label><br><label>No tienes que nombrar el producto completo para encontrarlo.</label><br><label>Lo mismo funciona para cada palabra separada por (,) en la busqueda.</label><br><label>Puedes espesificar hasta la cantidad para cada uno.</label><input type="text" id="ygb-input" placeholder="Ej: 2 manzanas, leche, pan integral" autocomplete="off" /><div id="ygb-sugerencias" style="position:relative;"></div></div>
+                    <div style="margin-bottom:10px;"><label>Tu lista de compras mas facil que nunca.</label><br><label>No tienes que nombrar el producto completo para encontrarlo.</label><br><label>Lo mismo funciona para cada palabra separada por (,) en la busqueda.</label><br><label>Puedes espesificar hasta la cantidad para cada uno.</label><input type="text" id="ygb-input" placeholder="Ej: 2 manzanas, leche, pan integral" autocomplete="off" /><div id="ygb-sugerencias" style="position:relative;"></div></div>
                     <div class="ygb-controls">
                         <button id="ygb-buscar" class="button">Buscar</button>
                         <button id="ygb-guardar" class="button" style="display:none;">Guardar lista</button>
                         <span id="ygb-loader" style="display:none;margin-left:10px;">Buscando...</span>
                     </div>
                     <div id="ygb-resultados" style="display:none;">
-                        <h3>Resultados</h3>
+                        <h3 style="margin:10px 0;">Resultados</h3>
                         <div id="ygb-lista"></div>
-                        <button id="ygb-agregar" class="button" style="margin-top:15px;">Añadir seleccionados al carrito</button>
+                        <button id="ygb-agregar" class="button" style="margin-top:10px;">Añadir seleccionados al carrito</button>
                         <span id="ygb-msg" style="margin-left:10px;"></span>
                     </div>
                 </div>
-                <div class="ygb-sidebar" id="ygb-sidebar" style="display:none;"><h4>Tus listas</h4><div id="ygb-listas-container"></div></div>
+                <div class="ygb-sidebar" id="ygb-sidebar" style="display:none;"><h4>Tus listas</h4><div id="ygb-listas-container" style="max-height:300px;overflow-y:auto;"></div></div>
             </div>
         </div>
         <script>
