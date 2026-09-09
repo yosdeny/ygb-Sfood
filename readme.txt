@@ -1,12 +1,13 @@
 === ygb-sfood - Buscador de Alimentos por Lista ===
-Contributors: tunombre
+Contributors: yosdeny
 Tags: buscador, alimentos, woocommerce, lista de compra, bulk order, carrito, cantidades, autocompletado, recetas
-Requires at least: 5.0
-Tested up to: 6.5
-Stable tag: 2.0
-Requires PHP: 7.4
+Requires at least: 7.0
+Tested up to: 7.1
+Stable tag: 5.15.0
+Requires PHP: 8.0
+Tested PHP: 8.2
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Transforma listas de alimentos escritas en texto en productos de WooCommerce con cantidades y añádelos al carrito de forma masiva o individual o simplemente guarda la busqueda como recetas de cocina o compra.
 
@@ -29,9 +30,9 @@ Transforma listas de alimentos escritas en texto en productos de WooCommerce con
 
 = Requisitos =
 
-* WordPress 5.0 o superior.
+* WordPress 7.0 o superior.
 * WooCommerce instalado y activo.
-* PHP 7.4 o superior.
+* PHP 8.0 o superior.
 
 == Installation ==
 
@@ -96,4 +97,4 @@ Actualización mayor con nuevas funcionalidades: cantidades, listas guardadas, a
 
 == Credits ==
 
-Desarrollado por Tu Nombre.
+Desarrollado por YGB.
