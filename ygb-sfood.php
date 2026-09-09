@@ -77,16 +77,51 @@ class YGB_SFood {
         dbDelta($sql);
     }
 
+    private function get_theme_colors() {
+        $theme_colors = [];
+        
+        // Intentar obtener colores del Customizer del tema activo
+        $bg_color = get_theme_mod('background_color');
+        if ($bg_color) {
+            $theme_colors['background'] = '#' . $bg_color;
+        }
+        
+        // Colores comunes en diferentes temas
+        $primary_color = get_theme_mod('primary_color', get_theme_mod('color_primary', ''));
+        if ($primary_color) {
+            $theme_colors['primary'] = $primary_color;
+        }
+        
+        $accent_color = get_theme_mod('accent_color', get_theme_mod('color_accent', ''));
+        if ($accent_color) {
+            $theme_colors['accent'] = $accent_color;
+        }
+        
+        $link_color = get_theme_mod('link_color', '');
+        if ($link_color) {
+            $theme_colors['link'] = $link_color;
+        }
+        
+        return $theme_colors;
+    }
+
     private function set_default_colors() {
+        $theme_colors = $this->get_theme_colors();
+        
+        // Usar colores del tema si están disponibles, sino usar defaults
+        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : '#2c7a46';
+        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : '#1f5c33';
+        $default_results_bg = isset($theme_colors['background']) ? $theme_colors['background'] : '#f9f9f9';
+        
         if (false === get_option('ygb_button_bg')) {
-            update_option('ygb_button_bg', '#2c7a46');
+            update_option('ygb_button_bg', $default_button_bg);
             update_option('ygb_button_text', '#ffffff');
-            update_option('ygb_button_border', '#2c7a46');
-            update_option('ygb_button_bg_hover', '#1f5c33');
+            update_option('ygb_button_border', $default_button_bg);
+            update_option('ygb_button_bg_hover', $default_button_bg_hover);
             update_option('ygb_button_text_hover', '#ffffff');
-            update_option('ygb_button_border_hover', '#1f5c33');
+            update_option('ygb_button_border_hover', $default_button_bg_hover);
             update_option('ygb_button_radius', '6px');
-            update_option('ygb_results_bg', '#f9f9f9');
+            update_option('ygb_results_bg', $default_results_bg);
         }
     }
 
@@ -158,14 +193,21 @@ class YGB_SFood {
             update_option('ygb_results_bg', sanitize_hex_color($_POST['ygb_results_bg']));
             echo '<div class="notice notice-success"><p>' . esc_html__('Colores guardados.', 'ygb-sfood') . '</p></div>';
         }
-        $button_bg = get_option('ygb_button_bg', '#2c7a46');
+        
+        // Obtener colores del tema si no hay opciones guardadas
+        $theme_colors = $this->get_theme_colors();
+        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : '#2c7a46';
+        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : '#1f5c33';
+        $default_results_bg = isset($theme_colors['background']) ? $theme_colors['background'] : '#f9f9f9';
+        
+        $button_bg = get_option('ygb_button_bg', $default_button_bg);
         $button_text = get_option('ygb_button_text', '#ffffff');
-        $button_border = get_option('ygb_button_border', '#2c7a46');
-        $button_bg_hover = get_option('ygb_button_bg_hover', '#1f5c33');
+        $button_border = get_option('ygb_button_border', $default_button_bg);
+        $button_bg_hover = get_option('ygb_button_bg_hover', $default_button_bg_hover);
         $button_text_hover = get_option('ygb_button_text_hover', '#ffffff');
-        $button_border_hover = get_option('ygb_button_border_hover', '#1f5c33');
+        $button_border_hover = get_option('ygb_button_border_hover', $default_button_bg_hover);
         $button_radius = get_option('ygb_button_radius', '6px');
-        $results_bg = get_option('ygb_results_bg', '#f9f9f9');
+        $results_bg = get_option('ygb_results_bg', $default_results_bg);
         ?>
         <div class="wrap"><h1><?php echo esc_html__('Personalizar colores', 'ygb-sfood'); ?></h1>
         <form method="post">
@@ -204,14 +246,20 @@ class YGB_SFood {
         $nonce = wp_create_nonce('ygb_nonce');
         $is_logged = is_user_logged_in() ? 'yes' : 'no';
 
-        $button_bg = get_option('ygb_button_bg', '#2c7a46');
+        // Obtener colores del tema si no hay opciones guardadas
+        $theme_colors = $this->get_theme_colors();
+        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : '#2c7a46';
+        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : '#1f5c33';
+        $default_results_bg = isset($theme_colors['background']) ? $theme_colors['background'] : '#f9f9f9';
+
+        $button_bg = get_option('ygb_button_bg', $default_button_bg);
         $button_text = get_option('ygb_button_text', '#ffffff');
-        $button_border = get_option('ygb_button_border', '#2c7a46');
-        $button_bg_hover = get_option('ygb_button_bg_hover', '#1f5c33');
+        $button_border = get_option('ygb_button_border', $default_button_bg);
+        $button_bg_hover = get_option('ygb_button_bg_hover', $default_button_bg_hover);
         $button_text_hover = get_option('ygb_button_text_hover', '#ffffff');
-        $button_border_hover = get_option('ygb_button_border_hover', '#1f5c33');
+        $button_border_hover = get_option('ygb_button_border_hover', $default_button_bg_hover);
         $button_radius = get_option('ygb_button_radius', '6px');
-        $results_bg = get_option('ygb_results_bg', '#f9f9f9');
+        $results_bg = get_option('ygb_results_bg', $default_results_bg);
 
         ob_start();
         ?>
