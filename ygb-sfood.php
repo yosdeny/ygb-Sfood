@@ -201,7 +201,7 @@ class YGB_SFood {
 
     // ✅ Corregido: eliminado "lakang" y estructura HTML válida
     public function admin_estadisticas() {
-        $datos = $this->db->get_results("SELECT * FROM {$this->table_name} ORDER BY fecha DESC LIMIT 100");
+        $datos = $this->db->get_results($this->db->prepare("SELECT * FROM {$this->table_name} ORDER BY fecha DESC LIMIT %d", 100));
         echo '<div class="wrap"><h1>' . esc_html__('Estadísticas', 'ygb-sfood') . '</h1><table class="wp-list-table widefat fixed striped"><thead><tr><th>ID</th><th>' . esc_html__('Término', 'ygb-sfood') . '</th><th>' . esc_html__('Encontrados', 'ygb-sfood') . '</th><th>' . esc_html__('Agregados', 'ygb-sfood') . '</th><th>' . esc_html__('Fecha', 'ygb-sfood') . '</th></tr></thead><tbody>';
         if (empty($datos)) {
             echo '<tr><td colspan="5">' . esc_html__('No hay registros aún.', 'ygb-sfood') . '</td></tr>';
