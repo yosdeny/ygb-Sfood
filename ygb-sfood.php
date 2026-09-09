@@ -3,7 +3,7 @@
  * Plugin Name: ygb-sfood
  * Plugin URI: https://url/lista-de-compras/
  * Description: Buscador de alimentos con controles +- en cantidad, admin-ajax, colores personalizables, responsive.
- * Version: 5.15.0
+ * Version: 5.15.1
  * Author: YGB
  * Author URI: https://github.com/yosdeny
  * Requires at least: 7.0
