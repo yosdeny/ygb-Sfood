@@ -322,12 +322,13 @@ class YGB_SFood {
                     <div class="ygb-controls">
                         <button id="ygb-buscar" class="button">Buscar</button>
                         <button id="ygb-guardar" class="button" style="display:none;">Guardar lista</button>
+                        <button id="ygb-agregar-top" class="button" style="display:none;margin-left:10px;">Añadir seleccionados al carrito</button>
                         <span id="ygb-loader" style="display:none;margin-left:10px;">Buscando...</span>
                     </div>
                     <div id="ygb-resultados" style="display:none;">
                         <h3 style="margin:10px 0;">Resultados</h3>
                         <div id="ygb-lista"></div>
-                        <button id="ygb-agregar" class="button" style="margin-top:10px;">Añadir seleccionados al carrito</button>
+                        <button id="ygb-agregar" class="button" style="margin-top:10px;display:none;">Añadir seleccionados al carrito</button>
                         <span id="ygb-msg" style="margin-left:10px;"></span>
                     </div>
                 </div>
@@ -402,6 +403,14 @@ class YGB_SFood {
                         guardarEstadoInicial(res.data);
                         renderProductos();
                         $('#ygb-resultados').show();
+                        var haySeleccionables = $('.ygb-check:not(:disabled)').length > 0;
+                        if (haySeleccionables) {
+                            $('#ygb-agregar-top').show();
+                            $('#ygb-agregar').show();
+                        } else {
+                            $('#ygb-agregar-top').hide();
+                            $('#ygb-agregar').hide();
+                        }
                     } else {
                         $('#ygb-msg').text(res.data || 'Error en la búsqueda').css('color','red').show();
                     }
@@ -458,6 +467,14 @@ class YGB_SFood {
                     html += '</div>';
                 });
                 $('#ygb-lista').html(html);
+                var haySeleccionables = $('.ygb-check:not(:disabled)').length > 0;
+                if (haySeleccionables) {
+                    $('#ygb-agregar-top').show();
+                    $('#ygb-agregar').show();
+                } else {
+                    $('#ygb-agregar-top').hide();
+                    $('#ygb-agregar').hide();
+                }
             }
 
             $(document).on('click', '.ygb-qty-plus', function() {
@@ -477,7 +494,7 @@ class YGB_SFood {
                 }
             });
 
-            $('#ygb-agregar').click(function() {
+            $('#ygb-agregar, #ygb-agregar-top').click(function() {
                 var ids = [], qtys = [];
                 $('.ygb-check:checked:not(:disabled)').each(function() {
                     var id = parseInt($(this).val());
