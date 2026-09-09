@@ -108,10 +108,16 @@ class YGB_SFood {
     private function set_default_colors() {
         $theme_colors = $this->get_theme_colors();
         
+        // Colores base proporcionados
+        $base_verde = '#61CE70';
+        $base_naranja = '#E26143';
+        $base_dorado = '#dd9933';
+        $base_gris = '#f2f2f2';
+        
         // Usar colores del tema si están disponibles, sino usar defaults
-        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : '#2c7a46';
-        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : '#1f5c33';
-        $default_results_bg = isset($theme_colors['background']) ? $theme_colors['background'] : '#f9f9f9';
+        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : $base_verde;
+        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : $base_naranja;
+        $default_results_bg = isset($theme_colors['background']) ? $theme_colors['background'] : $base_gris;
         
         if (false === get_option('ygb_button_bg')) {
             update_option('ygb_button_bg', $default_button_bg);
@@ -122,6 +128,22 @@ class YGB_SFood {
             update_option('ygb_button_border_hover', $default_button_bg_hover);
             update_option('ygb_button_radius', '6px');
             update_option('ygb_results_bg', $default_results_bg);
+            update_option('ygb_sidebar_bg', $base_gris);
+            update_option('ygb_sidebar_text', '#333333');
+            update_option('ygb_input_bg', '#ffffff');
+            update_option('ygb_input_text', '#333333');
+            update_option('ygb_input_border', '#cccccc');
+            update_option('ygb_product_bg', '#ffffff');
+            update_option('ygb_product_text', '#333333');
+            update_option('ygb_price_color', '#555555');
+            update_option('ygb_quantity_bg', '#ffffff');
+            update_option('ygb_quantity_text', '#333333');
+            update_option('ygb_quantity_button_bg', '#f0f0f0');
+            update_option('ygb_quantity_button_text', '#333333');
+            update_option('ygb_checkbox_color', $base_verde);
+            update_option('ygb_link_color', $base_naranja);
+            update_option('ygb_header_bg', $base_gris);
+            update_option('ygb_header_text', '#333333');
         }
     }
 
@@ -191,14 +213,34 @@ class YGB_SFood {
             update_option('ygb_button_border_hover', sanitize_hex_color($_POST['ygb_button_border_hover']));
             update_option('ygb_button_radius', sanitize_text_field($_POST['ygb_button_radius']));
             update_option('ygb_results_bg', sanitize_hex_color($_POST['ygb_results_bg']));
+            update_option('ygb_sidebar_bg', sanitize_hex_color($_POST['ygb_sidebar_bg']));
+            update_option('ygb_sidebar_text', sanitize_hex_color($_POST['ygb_sidebar_text']));
+            update_option('ygb_input_bg', sanitize_hex_color($_POST['ygb_input_bg']));
+            update_option('ygb_input_text', sanitize_hex_color($_POST['ygb_input_text']));
+            update_option('ygb_input_border', sanitize_hex_color($_POST['ygb_input_border']));
+            update_option('ygb_product_bg', sanitize_hex_color($_POST['ygb_product_bg']));
+            update_option('ygb_product_text', sanitize_hex_color($_POST['ygb_product_text']));
+            update_option('ygb_price_color', sanitize_hex_color($_POST['ygb_price_color']));
+            update_option('ygb_quantity_bg', sanitize_hex_color($_POST['ygb_quantity_bg']));
+            update_option('ygb_quantity_text', sanitize_hex_color($_POST['ygb_quantity_text']));
+            update_option('ygb_quantity_button_bg', sanitize_hex_color($_POST['ygb_quantity_button_bg']));
+            update_option('ygb_quantity_button_text', sanitize_hex_color($_POST['ygb_quantity_button_text']));
+            update_option('ygb_checkbox_color', sanitize_hex_color($_POST['ygb_checkbox_color']));
+            update_option('ygb_link_color', sanitize_hex_color($_POST['ygb_link_color']));
+            update_option('ygb_header_bg', sanitize_hex_color($_POST['ygb_header_bg']));
+            update_option('ygb_header_text', sanitize_hex_color($_POST['ygb_header_text']));
             echo '<div class="notice notice-success"><p>' . esc_html__('Colores guardados.', 'ygb-sfood') . '</p></div>';
         }
         
         // Obtener colores del tema si no hay opciones guardadas
         $theme_colors = $this->get_theme_colors();
-        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : '#2c7a46';
-        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : '#1f5c33';
-        $default_results_bg = isset($theme_colors['background']) ? $theme_colors['background'] : '#f9f9f9';
+        $base_verde = '#61CE70';
+        $base_naranja = '#E26143';
+        $base_dorado = '#dd9933';
+        $base_gris = '#f2f2f2';
+        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : $base_verde;
+        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : $base_naranja;
+        $default_results_bg = isset($theme_colors['background']) ? $theme_colors['background'] : $base_gris;
         
         $button_bg = get_option('ygb_button_bg', $default_button_bg);
         $button_text = get_option('ygb_button_text', '#ffffff');
@@ -208,10 +250,28 @@ class YGB_SFood {
         $button_border_hover = get_option('ygb_button_border_hover', $default_button_bg_hover);
         $button_radius = get_option('ygb_button_radius', '6px');
         $results_bg = get_option('ygb_results_bg', $default_results_bg);
+        $sidebar_bg = get_option('ygb_sidebar_bg', $base_gris);
+        $sidebar_text = get_option('ygb_sidebar_text', '#333333');
+        $input_bg = get_option('ygb_input_bg', '#ffffff');
+        $input_text = get_option('ygb_input_text', '#333333');
+        $input_border = get_option('ygb_input_border', '#cccccc');
+        $product_bg = get_option('ygb_product_bg', '#ffffff');
+        $product_text = get_option('ygb_product_text', '#333333');
+        $price_color = get_option('ygb_price_color', '#555555');
+        $quantity_bg = get_option('ygb_quantity_bg', '#ffffff');
+        $quantity_text = get_option('ygb_quantity_text', '#333333');
+        $quantity_button_bg = get_option('ygb_quantity_button_bg', '#f0f0f0');
+        $quantity_button_text = get_option('ygb_quantity_button_text', '#333333');
+        $checkbox_color = get_option('ygb_checkbox_color', $base_verde);
+        $link_color = get_option('ygb_link_color', $base_naranja);
+        $header_bg = get_option('ygb_header_bg', $base_gris);
+        $header_text = get_option('ygb_header_text', '#333333');
         ?>
-        <div class="wrap"><h1><?php echo esc_html__('Personalizar colores', 'ygb-sfood'); ?></h1>
+        <div class="wrap"><h1><?php echo esc_html__('Personalizar colores del plugin', 'ygb-sfood'); ?></h1>
+        <p><?php echo esc_html__('Usa estos colores como base: #61CE70 (verde), #E26143 (naranja), #dd9933 (dorado), #f2f2f2 (gris claro)', 'ygb-sfood'); ?></p>
         <form method="post">
             <?php wp_nonce_field('ygb_colors_nonce'); ?>
+            <h2><?php echo esc_html__('Botones Principales', 'ygb-sfood'); ?></h2>
             <table class="form-table">
                 <tr><th><?php echo esc_html__('Fondo botón', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_button_bg" value="<?php echo esc_attr($button_bg); ?>" class="ygb-color-field" /></td></tr>
                 <tr><th><?php echo esc_html__('Texto botón', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_button_text" value="<?php echo esc_attr($button_text); ?>" class="ygb-color-field" /></td></tr>
@@ -220,9 +280,37 @@ class YGB_SFood {
                 <tr><th><?php echo esc_html__('Texto hover', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_button_text_hover" value="<?php echo esc_attr($button_text_hover); ?>" class="ygb-color-field" /></td></tr>
                 <tr><th><?php echo esc_html__('Borde hover', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_button_border_hover" value="<?php echo esc_attr($button_border_hover); ?>" class="ygb-color-field" /></td></tr>
                 <tr><th><?php echo esc_html__('Radio borde', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_button_radius" value="<?php echo esc_attr($button_radius); ?>" /></td></tr>
-                <tr><th><?php echo esc_html__('Fondo resultados', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_results_bg" value="<?php echo esc_attr($results_bg); ?>" class="ygb-color-field" /></td></tr>
             </table>
-            <p class="submit"><input type="submit" name="ygb_save_colors" class="button-primary" value="<?php echo esc_attr__('Guardar', 'ygb-sfood'); ?>" /></p>
+            <h2><?php echo esc_html__('Fondos y Contenedores', 'ygb-sfood'); ?></h2>
+            <table class="form-table">
+                <tr><th><?php echo esc_html__('Fondo resultados', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_results_bg" value="<?php echo esc_attr($results_bg); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Fondo sidebar', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_sidebar_bg" value="<?php echo esc_attr($sidebar_bg); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Texto sidebar', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_sidebar_text" value="<?php echo esc_attr($sidebar_text); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Fondo cabecera', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_header_bg" value="<?php echo esc_attr($header_bg); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Texto cabecera', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_header_text" value="<?php echo esc_attr($header_text); ?>" class="ygb-color-field" /></td></tr>
+            </table>
+            <h2><?php echo esc_html__('Campos de Entrada', 'ygb-sfood'); ?></h2>
+            <table class="form-table">
+                <tr><th><?php echo esc_html__('Fondo input', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_input_bg" value="<?php echo esc_attr($input_bg); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Texto input', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_input_text" value="<?php echo esc_attr($input_text); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Borde input', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_input_border" value="<?php echo esc_attr($input_border); ?>" class="ygb-color-field" /></td></tr>
+            </table>
+            <h2><?php echo esc_html__('Productos', 'ygb-sfood'); ?></h2>
+            <table class="form-table">
+                <tr><th><?php echo esc_html__('Fondo producto', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_product_bg" value="<?php echo esc_attr($product_bg); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Texto producto', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_product_text" value="<?php echo esc_attr($product_text); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Color precio', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_price_color" value="<?php echo esc_attr($price_color); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Color checkbox', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_checkbox_color" value="<?php echo esc_attr($checkbox_color); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Color enlace', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_link_color" value="<?php echo esc_attr($link_color); ?>" class="ygb-color-field" /></td></tr>
+            </table>
+            <h2><?php echo esc_html__('Controles de Cantidad', 'ygb-sfood'); ?></h2>
+            <table class="form-table">
+                <tr><th><?php echo esc_html__('Fondo cantidad', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_quantity_bg" value="<?php echo esc_attr($quantity_bg); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Texto cantidad', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_quantity_text" value="<?php echo esc_attr($quantity_text); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Fondo botones cantidad', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_quantity_button_bg" value="<?php echo esc_attr($quantity_button_bg); ?>" class="ygb-color-field" /></td></tr>
+                <tr><th><?php echo esc_html__('Texto botones cantidad', 'ygb-sfood'); ?></th><td><input type="text" name="ygb_quantity_button_text" value="<?php echo esc_attr($quantity_button_text); ?>" class="ygb-color-field" /></td></tr>
+            </table>
+            <p class="submit"><input type="submit" name="ygb_save_colors" class="button-primary" value="<?php echo esc_attr__('Guardar Colores', 'ygb-sfood'); ?>" /></p>
         </form></div>
         <?php
     }
@@ -248,9 +336,13 @@ class YGB_SFood {
 
         // Obtener colores del tema si no hay opciones guardadas
         $theme_colors = $this->get_theme_colors();
-        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : '#2c7a46';
-        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : '#1f5c33';
-        $default_results_bg = isset($theme_colors['background']) ? $theme_colors['background'] : '#f9f9f9';
+        $base_verde = '#61CE70';
+        $base_naranja = '#E26143';
+        $base_dorado = '#dd9933';
+        $base_gris = '#f2f2f2';
+        $default_button_bg = isset($theme_colors['primary']) ? $theme_colors['primary'] : $base_verde;
+        $default_button_bg_hover = isset($theme_colors['accent']) ? $theme_colors['accent'] : $base_naranja;
+        $default_results_bg = isset($theme_colors['background']) ? $theme_colors['background'] : $base_gris;
 
         $button_bg = get_option('ygb_button_bg', $default_button_bg);
         $button_text = get_option('ygb_button_text', '#ffffff');
@@ -260,6 +352,22 @@ class YGB_SFood {
         $button_border_hover = get_option('ygb_button_border_hover', $default_button_bg_hover);
         $button_radius = get_option('ygb_button_radius', '6px');
         $results_bg = get_option('ygb_results_bg', $default_results_bg);
+        $sidebar_bg = get_option('ygb_sidebar_bg', $base_gris);
+        $sidebar_text = get_option('ygb_sidebar_text', '#333333');
+        $input_bg = get_option('ygb_input_bg', '#ffffff');
+        $input_text = get_option('ygb_input_text', '#333333');
+        $input_border = get_option('ygb_input_border', '#cccccc');
+        $product_bg = get_option('ygb_product_bg', '#ffffff');
+        $product_text = get_option('ygb_product_text', '#333333');
+        $price_color = get_option('ygb_price_color', '#555555');
+        $quantity_bg = get_option('ygb_quantity_bg', '#ffffff');
+        $quantity_text = get_option('ygb_quantity_text', '#333333');
+        $quantity_button_bg = get_option('ygb_quantity_button_bg', '#f0f0f0');
+        $quantity_button_text = get_option('ygb_quantity_button_text', '#333333');
+        $checkbox_color = get_option('ygb_checkbox_color', $base_verde);
+        $link_color = get_option('ygb_link_color', $base_naranja);
+        $header_bg = get_option('ygb_header_bg', $base_gris);
+        $header_text = get_option('ygb_header_text', '#333333');
 
         ob_start();
         ?>
@@ -267,36 +375,40 @@ class YGB_SFood {
             #ygb-app { font-family: sans-serif; max-width: 900px; margin: 0 auto; padding: 5px 0; }
             .ygb-layout { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; }
             .ygb-main { flex: 1; min-width: 300px; }
-            .ygb-sidebar { width: 220px; background: <?php echo esc_attr($results_bg); ?>; padding: 10px; border-radius: 6px; }
-            .ygb-sidebar h4 { margin: 0 0 8px 0; font-size: 16px; }
-            #ygb-app input[type="text"] { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; }
+            .ygb-sidebar { width: 220px; background: <?php echo esc_attr($sidebar_bg); ?>; padding: 10px; border-radius: 6px; color: <?php echo esc_attr($sidebar_text); ?>; }
+            .ygb-sidebar h4 { margin: 0 0 8px 0; font-size: 16px; color: <?php echo esc_attr($sidebar_text); ?>; }
+            #ygb-app input[type="text"] { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid <?php echo esc_attr($input_border); ?>; border-radius: 4px; background: <?php echo esc_attr($input_bg); ?>; color: <?php echo esc_attr($input_text); ?>; }
             .ygb-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 10px 0; }
-            #ygb-buscar, #ygb-guardar { height: 38px; line-height: 38px; padding: 0 15px; cursor: pointer; }
-            .ygb-producto { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; }
+            #ygb-buscar, #ygb-guardar, #ygb-agregar-top { height: 38px; line-height: 38px; padding: 0 15px; cursor: pointer; background-color: <?php echo esc_attr($button_bg); ?>; color: <?php echo esc_attr($button_text); ?>; border: 1px solid <?php echo esc_attr($button_border); ?>; border-radius: <?php echo esc_attr($button_radius); ?>; }
+            #ygb-buscar:hover, #ygb-guardar:hover, #ygb-agregar-top:hover { background-color: <?php echo esc_attr($button_bg_hover); ?>; color: <?php echo esc_attr($button_text_hover); ?>; border-color: <?php echo esc_attr($button_border_hover); ?>; }
+            .ygb-producto { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; background: <?php echo esc_attr($product_bg); ?>; color: <?php echo esc_attr($product_text); ?>; }
             .ygb-col-checkbox { width: 30px; flex-shrink: 0; text-align: center; }
+            .ygb-col-checkbox input[type="checkbox"] { accent-color: <?php echo esc_attr($checkbox_color); ?>; }
             .ygb-col-imagen { width: 50px; flex-shrink: 0; }
             .ygb-col-info { flex: 2; }
             .ygb-col-cantidad { width: 110px; flex-shrink: 0; text-align: center; }
             .ygb-col-accion { width: 110px; flex-shrink: 0; text-align: center; }
             .ygb-producto img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; display: block; }
             .ygb-info { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
-            .ygb-info strong { font-weight: bold; font-size: 14px; }
-            .ygb-info .product-price { color: #555; font-size: 13px; }
-            .ygb-quantity-control { display: inline-flex; align-items: center; gap: 4px; background: white; border: 1px solid #ccc; border-radius: 4px; height: 38px; box-sizing: border-box; overflow: hidden; }
-            .ygb-quantity-control button { width: 30px; height: 36px; background: #f0f0f0; color: #333; border: none; cursor: pointer; font-size: 18px; font-weight: bold; line-height: 1; margin: 0; padding: 0; border-radius: 0; transition: background 0.2s; }
-            .ygb-quantity-control button:hover { background: #e0e0e0; }
-            .ygb-quantity-control .ygb-cantidad { width: 45px; height: 36px; text-align: center; border: none; border-left: 1px solid #ccc; border-right: 1px solid #ccc; margin: 0; padding: 0; font-size: 14px; box-sizing: border-box; -moz-appearance: textfield; }
+            .ygb-info strong { font-weight: bold; font-size: 14px; color: <?php echo esc_attr($product_text); ?>; }
+            .ygb-info .product-price { color: <?php echo esc_attr($price_color); ?>; font-size: 13px; }
+            .ygb-info a { color: <?php echo esc_attr($link_color); ?>; text-decoration: none; }
+            .ygb-info a:hover { text-decoration: underline; }
+            .ygb-quantity-control { display: inline-flex; align-items: center; gap: 4px; background: <?php echo esc_attr($quantity_bg); ?>; border: 1px solid <?php echo esc_attr($input_border); ?>; border-radius: 4px; height: 38px; box-sizing: border-box; overflow: hidden; }
+            .ygb-quantity-control button { width: 30px; height: 36px; background: <?php echo esc_attr($quantity_button_bg); ?>; color: <?php echo esc_attr($quantity_button_text); ?>; border: none; cursor: pointer; font-size: 18px; font-weight: bold; line-height: 1; margin: 0; padding: 0; border-radius: 0; transition: background 0.2s; }
+            .ygb-quantity-control button:hover { background: <?php echo esc_attr($button_bg_hover); ?>; color: <?php echo esc_attr($button_text_hover); ?>; }
+            .ygb-quantity-control .ygb-cantidad { width: 45px; height: 36px; text-align: center; border: none; border-left: 1px solid <?php echo esc_attr($input_border); ?>; border-right: 1px solid <?php echo esc_attr($input_border); ?>; margin: 0; padding: 0; font-size: 14px; box-sizing: border-box; -moz-appearance: textfield; background: <?php echo esc_attr($quantity_bg); ?>; color: <?php echo esc_attr($quantity_text); ?>; }
             .ygb-quantity-control .ygb-cantidad::-webkit-inner-spin-button,
             .ygb-quantity-control .ygb-cantidad::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-            .ygb-quantity-control button:active { background: #d0d0d0; }
+            .ygb-quantity-control button:active { background: <?php echo esc_attr($button_bg); ?>; }
             .ygb-quantity-control button:disabled, .ygb-cantidad:disabled { background: #f5f5f5; color: #aaa; cursor: not-allowed; }
             .ygb-accion, .ygb-add-one { display: inline-block; white-space: nowrap; height: 38px; line-height: 38px; padding: 0 12px; border-radius: <?php echo esc_attr($button_radius); ?>; text-decoration: none; cursor: pointer; box-sizing: border-box; }
             button.ygb-add-one { background-color: <?php echo esc_attr($button_bg); ?>; color: <?php echo esc_attr($button_text); ?>; border: 1px solid <?php echo esc_attr($button_border); ?>; }
             button.ygb-add-one:hover { background-color: <?php echo esc_attr($button_bg_hover); ?>; color: <?php echo esc_attr($button_text_hover); ?>; border-color: <?php echo esc_attr($button_border_hover); ?>; }
             span.ygb-accion { border: 1px solid transparent; background: transparent; color: #c00; }
-            .ygb-lista-item { display: block; background: #eee; padding: 5px 8px; margin: 3px 0; border-radius: 4px; cursor: pointer; font-size: 13px; position: relative; }
+            .ygb-lista-item { display: block; background: <?php echo esc_attr($sidebar_bg); ?>; padding: 5px 8px; margin: 3px 0; border-radius: 4px; cursor: pointer; font-size: 13px; position: relative; color: <?php echo esc_attr($sidebar_text); ?>; }
             .ygb-lista-item .nombre { display: block; font-weight: bold; margin-bottom: 1px; }
-            .ygb-lista-item .consulta { display: block; font-size: 11px; color: #555; word-break: break-word; }
+            .ygb-lista-item .consulta { display: block; font-size: 11px; color: <?php echo esc_attr($sidebar_text); ?>; opacity: 0.7; word-break: break-word; }
             .ygb-lista-item .eliminar { position: absolute; right: 5px; top: 4px; color: red; cursor: pointer; font-weight: bold; font-size: 13px; }
             @media (max-width: 600px) {
                 .ygb-layout { flex-direction: column; }
@@ -311,7 +423,7 @@ class YGB_SFood {
                 .ygb-quantity-control { height: 36px; }
                 .ygb-quantity-control button { width: 28px; height: 34px; }
                 .ygb-quantity-control .ygb-cantidad { width: 40px; height: 34px; }
-                #ygb-guardar { display: inline-block; }
+                #ygb-guardar, #ygb-agregar-top { display: inline-block; }
                 .ygb-info { flex-wrap: wrap; gap: 6px; }
             }
         </style>
