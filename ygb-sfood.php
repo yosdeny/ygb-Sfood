@@ -414,8 +414,8 @@ class YGB_SFood {
             .ygb-sidebar h4 { margin: 0 0 8px 0; font-size: 16px; color: <?php echo esc_attr($sidebar_text); ?>; }
             #ygb-app input[type="text"] { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid <?php echo esc_attr($input_border); ?>; border-radius: 4px; background: <?php echo esc_attr($input_bg); ?>; color: <?php echo esc_attr($input_text); ?>; }
             .ygb-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 10px 0; }
-            #ygb-buscar, #ygb-guardar, #ygb-agregar-top { height: 38px; line-height: 38px; padding: 0 15px; cursor: pointer; background-color: <?php echo esc_attr($button_bg); ?>; color: <?php echo esc_attr($button_text); ?>; border: 1px solid <?php echo esc_attr($button_border); ?>; border-radius: <?php echo esc_attr($button_radius); ?>; }
-            #ygb-buscar:hover, #ygb-guardar:hover, #ygb-agregar-top:hover { background-color: <?php echo esc_attr($button_bg_hover); ?>; color: <?php echo esc_attr($button_text_hover); ?>; border-color: <?php echo esc_attr($button_border_hover); ?>; }
+            #ygb-buscar, #ygb-guardar, #ygb-agregar-top, #ygb-agregar { height: 38px; line-height: 38px; padding: 0 15px; cursor: pointer; background-color: <?php echo esc_attr($button_bg); ?>; color: <?php echo esc_attr($button_text); ?>; border: 1px solid <?php echo esc_attr($button_border); ?>; border-radius: <?php echo esc_attr($button_radius); ?>; }
+            #ygb-buscar:hover, #ygb-guardar:hover, #ygb-agregar-top:hover, #ygb-agregar:hover { background-color: <?php echo esc_attr($button_bg_hover); ?>; color: <?php echo esc_attr($button_text_hover); ?>; border-color: <?php echo esc_attr($button_border_hover); ?>; }
             .ygb-producto { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; background: <?php echo esc_attr($product_bg); ?>; color: <?php echo esc_attr($product_text); ?>; }
             .ygb-col-checkbox { width: 30px; flex-shrink: 0; text-align: center; }
             .ygb-col-checkbox input[type="checkbox"] { accent-color: <?php echo esc_attr($checkbox_color); ?>; }
