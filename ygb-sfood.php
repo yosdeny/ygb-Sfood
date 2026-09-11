@@ -42,16 +42,12 @@ class YGB_SFood {
 
         // AJAX nativo (evita bloqueos WAF/404 de REST API)
         add_action('wp_ajax_ygb_buscar', [$this, 'buscar']);
-        add_action('wp_ajax_nopriv_ygb_buscar', [$this, 'buscar']);
         add_action('wp_ajax_ygb_agregar', [$this, 'agregar']);
-        add_action('wp_ajax_nopriv_ygb_agregar', [$this, 'agregar']);
         add_action('wp_ajax_ygb_sugerencias', [$this, 'sugerencias']);
-        add_action('wp_ajax_nopriv_ygb_sugerencias', [$this, 'sugerencias']);
         add_action('wp_ajax_ygb_guardar', [$this, 'guardar_lista']);
         add_action('wp_ajax_ygb_cargar', [$this, 'cargar_listas']);
         add_action('wp_ajax_ygb_eliminar', [$this, 'eliminar_lista']);
         add_action('wp_ajax_ygb_estado_carrito', [$this, 'estado_carrito']);
-        add_action('wp_ajax_nopriv_ygb_estado_carrito', [$this, 'estado_carrito']);
     }
 
     public function activar() {
