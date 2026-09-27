@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: ygb-sfood
+ * Plugin Name: YGB-SFood
  * Plugin URI: https://url/lista-de-compras/
  * Description: Buscador de alimentos con controles +- en cantidad, admin-ajax, colores personalizables, responsive.
  * Version: 5.15.1
  * Author: YGB
  * Author URI: https://github.com/yosdeny
  * Requires at least: 7.0
- * Tested up to: 7.1
+ * Tested up to: 7.1.2
  * Requires PHP: 8.0
  * Tested PHP: 8.2
  * License: GPLv2 or later
@@ -184,13 +184,13 @@ class YGB_SFood {
     }
 
     public function admin_menu() {
-        add_menu_page('ygb-sfood', 'ygb-sfood', 'manage_options', 'ygb-sfood', [$this, 'admin_dashboard'], 'dashicons-search', 30);
+        add_menu_page('YGB-SFood', 'YGB-SFood', 'manage_options', 'ygb-sfood', [$this, 'admin_dashboard'], 'dashicons-search', 30);
         add_submenu_page('ygb-sfood', 'Estadísticas', 'Estadísticas', 'manage_options', 'ygb-estadisticas', [$this, 'admin_estadisticas']);
         add_submenu_page('ygb-sfood', 'Personalizar', 'Personalizar', 'manage_options', 'ygb-personalizar', [$this, 'admin_personalizar']);
     }
 
     public function admin_dashboard() {
-        echo '<div class="wrap"><h1>' . esc_html__('ygb-sfood', 'ygb-sfood') . '</h1>';
+        echo '<div class="wrap"><h1>' . esc_html__('YGB-SFood', 'ygb-sfood') . '</h1>';
         echo '<p>' . esc_html__('Shortcode:', 'ygb-sfood') . ' <code>[ygb_sfood]</code> | ' . esc_html__('Enlace directo:', 'ygb-sfood') . ' <a href="' . esc_url(home_url('/' . $this->blank_slug . '/')) . '" target="_blank">' . esc_html__('Abrir buscador', 'ygb-sfood') . '</a></p>';
         echo '</div>';
     }
