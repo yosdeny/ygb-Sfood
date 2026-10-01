@@ -3,7 +3,7 @@ Contributors: yosdeny
 Tags: buscador, alimentos, woocommerce, lista de compra, bulk order, carrito, cantidades, autocompletado, recetas
 Requires at least: 7.0
 Tested up to: 7.1.2
-Stable tag: 5.16.0
+Stable tag: 6.0.1
 Requires PHP: 8.0
 Tested PHP: 8.2
 License: GPLv2 or later
@@ -26,8 +26,8 @@ Transforma listas de alimentos escritas en texto en productos de WooCommerce con
 * **Autocompletado inteligente**: Mientras escribes, sugiere productos existentes para completar el último término.
 * **Listas guardadas**: Los usuarios registrados pueden guardar sus búsquedas frecuentes y cargarlas con un clic.
 * **Estadísticas de búsqueda**: En el panel de administración, consulta las últimas 100 búsquedas realizadas, productos encontrados y agregados.
-* **Shortcode simple**: Inserta `[ygb_sfood]` en cualquier página y el buscador estará listo.
-* **Plantilla de página "Lista de Compras"**: Crea una página y asígnale esta plantilla desde el editor para mostrar el buscador sin cabeceras ni elementos del tema.
+* **Shortcode simple**: Inserta `[ygb_sfood]` en cualquier página o entrada y el buscador estará listo.
+* **Personalización de colores**: 22 opciones independientes para ajustar el aspecto del buscador al tema de tu tienda.
 
 = Requisitos =
 
@@ -40,22 +40,28 @@ Transforma listas de alimentos escritas en texto en productos de WooCommerce con
 1. Sube la carpeta `ygb-sfood` al directorio `/wp-content/plugins/` de tu instalación de WordPress.
 2. Activa el plugin desde el menú "Plugins" del escritorio de WordPress.
 3. Asegúrate de que WooCommerce esté activo.
-4. Inserta el shortcode `[ygb_sfood]` en la página o entrada donde quieras mostrar el buscador.
-5. Opcional: crea una página nueva y asígnale la plantilla "Lista de Compras" para una vista sin distracciones del tema.
+4. Crea una página nueva en **Páginas → Añadir nueva**.
+5. Dentro del contenido, pega el shortcode `[ygb_sfood]`.
+6. Publica la página.
 
 == Usage ==
 
-1. Ve a la página donde insertaste el shortcode.
+1. Ve a la página donde insertaste el shortcode `[ygb_sfood]`.
 2. Escribe los nombres de los alimentos separados por comas (puedes usar cantidades, por ejemplo `2 leche, 1 pan`).
-3. Si lo deseas, ajusta la cantidad global o las cantidades individuales en cada producto.
+3. Si lo deseas, ajusta las cantidades individuales de cada producto.
 4. Marca los productos que quieras añadir y pulsa **"Añadir seleccionados al carrito"**, o usa el botón individual de cada producto.
 5. Los usuarios registrados pueden guardar la búsqueda actual con el botón **"Guardar lista"** y recuperarla más tarde.
 
-= Uso de la plantilla "Lista de Compras" =
+= Shortcodes disponibles =
 
-1. Ve a **Páginas → Añadir nueva**.
-2. En el panel lateral, selecciona **Lista de Compras** en el selector de plantilla.
-3. Publica la página. El buscador se mostrará sin cabeceras, sidebars ni comentarios del tema.
+* `[ygb_sfood]` — Muestra el buscador completo.
+* `[ygb_sfood_link texto="Buscar alimentos" class="mi-clase"]` — Genera un enlace a la primera página publicada que contenga `[ygb_sfood]`.
+
+= Administración =
+
+* **YGB-SFood → YGB-SFood**: Pantalla principal con el shortcode a copiar.
+* **YGB-SFood → Estadísticas**: Últimas 100 búsquedas realizadas con el número de productos encontrados y agregados.
+* **YGB-SFood → Personalizar**: 22 opciones de color para adaptar el buscador al tema de la tienda.
 
 == Frequently Asked Questions ==
 
@@ -64,6 +70,9 @@ Sí, el plugin depende completamente de WooCommerce. Sin él no funcionará.
 
 = ¿Puedo usar este plugin para productos que no sean alimentos? =
 Sí, aunque está pensado para alimentos, puedes usarlo con cualquier tipo de producto. Simplemente buscará por nombre en tu tienda.
+
+= ¿Cómo muestro el buscador en una página? =
+Crea una página, pega el shortcode `[ygb_sfood]` dentro del contenido y publica. No requiere ninguna plantilla ni configuración adicional.
 
 = ¿Qué pasa si escribo un producto que no existe? =
 El sistema te avisará de que no se encontraron coincidencias. La búsqueda se registra en las estadísticas para que puedas ampliar tu catálogo si lo deseas.
@@ -75,21 +84,37 @@ Sí, cada producto tiene un campo de cantidad independiente. Además, si escribe
 Solo los usuarios que hayan iniciado sesión pueden guardar listas. Estas se almacenan en el perfil del usuario (user meta) y se cargan automáticamente al visitar la página.
 
 = ¿Dónde veo las estadísticas? =
-En el menú de administración de WordPress encontrarás una nueva entrada llamada "ygb‑sfood". Allí se muestran las últimas 100 búsquedas con sus resultados.
+En el menú de administración de WordPress encontrarás una entrada llamada "YGB-SFood". Dentro, el submenú "Estadísticas" muestra las últimas 100 búsquedas con sus resultados.
+
+= ¿Cómo cambio los colores del buscador? =
+Ve a **YGB-SFood → Personalizar**. Ahí puedes ajustar los 22 colores que controlan botones, inputs, textos, precios, cantidades y demás elementos del buscador.
+
+= ¿Cómo personalizo el CSS? =
+El buscador usa selectores con el prefijo `#ygb-app` y `.ygb-*`. Puedes añadir tus reglas CSS desde `Apariencia → Personalizar → CSS adicional`.
 
 == Screenshots ==
 
-1. Interfaz principal del buscador con campo de texto, cantidad global y botones.
+1. Interfaz principal del buscador con campo de texto, cantidad y botones.
 2. Resultados de búsqueda mostrando imagen, nombre, precio, checkbox y cantidad individual.
 3. Listas guardadas por el usuario listas para cargar con un clic.
 4. Panel de estadísticas en el escritorio de WordPress.
 5. Ejemplo de autocompletado sugiriendo productos mientras se escribe.
+6. Panel de personalización de colores.
 
 == Changelog ==
 
-= 5.16.0 =
-* AÑADIDO: Plantilla de página "Lista de Compras" seleccionable en el editor.
-* Sin cambios en el funcionamiento existente: rewrite /lista-de-compras/, shortcode `[ygb_sfood]`, panel admin, AJAX y caché intactos.
+= 6.0.1 =
+* AÑADIDO: Carga del textdomain con `load_plugin_textdomain()`.
+* AÑADIDO: `flush_rewrite_rules()` en activación y desactivación para limpiar reglas residuales.
+* CORREGIDO: Typo "espesificar" → "especificar" en la interfaz del buscador.
+* MEJORADO: Comentarios `/* translators: */` en cadenas con placeholders.
+* MEJORADO: `.pot` limpio, sin cadenas obsoletas.
+
+= 6.0.0 =
+* ELIMINADO: Rewrite rule `/lista-de-compras/` y plantilla `blank.php`.
+* ELIMINADO: Filtros `theme_page_templates` y `template_include`.
+* SIMPLIFICADO: El buscador se muestra exclusivamente mediante el shortcode `[ygb_sfood]` dentro de cualquier página o entrada.
+* MEJORADO: Estructura del plugin reducida a un único fichero PHP más `languages/`.
 
 = 5.15.2 =
 * CORREGIDO: `parsear()` rompía términos que contienen la letra "y" (p. ej. "mayonesa").
@@ -102,34 +127,37 @@ En el menú de administración de WordPress encontrarás una nueva entrada llama
 * AÑADIDO: header `Requires Plugins: woocommerce`.
 
 = 5.15.1 =
-* MEJORADO: Integración automática con los colores del tema activo de WordPress
-* MEJORADO: Sistema avanzado de personalización de colores (22 opciones independientes)
-* AÑADIDO: Botón "Añadir seleccionados al carrito" superior
-* CORREGIDO: Espaciado y márgenes entre menú y contenido
-* CORREGIDO: Efecto hover en el botón inferior
+* MEJORADO: Integración automática con los colores del tema activo de WordPress.
+* MEJORADO: Sistema avanzado de personalización de colores (22 opciones independientes).
+* AÑADIDO: Botón "Añadir seleccionados al carrito" superior.
+* CORREGIDO: Espaciado y márgenes entre menú y contenido.
+* CORREGIDO: Efecto hover en el botón inferior.
 
 = 5.15.0 =
-* AÑADIDO: Sistema de caché para búsquedas y sugerencias (transients API)
-* AÑADIDO: Filtros `ygb_sfood_search_cache_time` y `ygb_sfood_suggestions_cache_time`
-* AÑADIDO: Acciones `ygb_sfood_search_cache_hit`, `ygb_sfood_search_completed`, `ygb_sfood_suggestions_cache_hit`, `ygb_sfood_suggestions_generated`
-* MEJORADO: Documentación completa de hooks y filtros
-* CORREGIDO: URL del plugin cambiada a 'lista-de-compras'
+* AÑADIDO: Sistema de caché para búsquedas y sugerencias (transients API).
+* AÑADIDO: Filtros `ygb_sfood_search_cache_time` y `ygb_sfood_suggestions_cache_time`.
+* AÑADIDO: Acciones `ygb_sfood_search_cache_hit`, `ygb_sfood_search_completed`, `ygb_sfood_suggestions_cache_hit`, `ygb_sfood_suggestions_generated`.
+* MEJORADO: Documentación completa de hooks y filtros.
+* CORREGIDO: URL del plugin cambiada a 'lista-de-compras'.
 
 = 2.0 =
-* Añadida interpretación de cantidades
-* Selector de cantidad global e individual
-* Listas guardadas para usuarios registrados
-* Autocompletado inteligente
-* Tabla de estadísticas en administración
-* Cambio de nombre a ygb-sfood y shortcode `[ygb_sfood]`
+* Añadida interpretación de cantidades.
+* Selector de cantidad global e individual.
+* Listas guardadas para usuarios registrados.
+* Autocompletado inteligente.
+* Tabla de estadísticas en administración.
+* Cambio de nombre a ygb-sfood y shortcode `[ygb_sfood]`.
 
 = 1.0 =
 * Versión inicial con búsqueda por lista, checkboxes, añadir seleccionados y añadir uno a uno.
 
 == Upgrade Notice ==
 
-= 5.16.0 =
-Añade la plantilla "Lista de Compras" seleccionable desde el editor. Crea una página nueva y asígnale esa plantilla para mostrar el buscador sin cabeceras ni elementos del tema.
+= 6.0.1 =
+Correcciones de mantenimiento: carga del textdomain, limpieza de rewrite rules residuales y typo en la interfaz. Sin cambios funcionales.
+
+= 6.0.0 =
+Eliminado el rewrite `/lista-de-compras/` y la plantilla `blank.php`. Ahora el buscador se muestra exclusivamente con el shortcode `[ygb_sfood]` en cualquier página o entrada. Si tenías una página con la plantilla antigua, cambia su contenido por el shortcode.
 
 = 5.15.2 =
 Correcciones de seguridad y comportamiento. Actualización recomendada.

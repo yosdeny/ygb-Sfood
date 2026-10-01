@@ -2,7 +2,7 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: ygb-sfood 6.0.0\n"
+"Project-Id-Version: ygb-sfood 6.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yosdeny\n"
 "POT-Creation-Date: 2024-01-01 00:00+0000\n"
 "MIME-Version: 1.0\n"
@@ -16,130 +16,10 @@ msgstr ""
 msgid "Estadísticas"
 msgstr ""
 
-msgid "Guardar"
+msgid "Personalizar"
 msgstr ""
 
 msgid "WooCommerce no activo."
-msgstr ""
-
-msgid "Buscar producto..."
-msgstr ""
-
-msgid "Añadir"
-msgstr ""
-
-msgid "Nombre de la lista"
-msgstr ""
-
-msgid "Crear Lista"
-msgstr ""
-
-msgid "Mis Listas"
-msgstr ""
-
-msgid "Cargando listas..."
-msgstr ""
-
-msgid "Producto"
-msgstr ""
-
-msgid "Cantidad"
-msgstr ""
-
-msgid "Acciones"
-msgstr ""
-
-msgid "Eliminar"
-msgstr ""
-
-msgid "No hay productos en esta lista."
-msgstr ""
-
-msgid "Volver"
-msgstr ""
-
-msgid "Configuración"
-msgstr ""
-
-msgid "Color del botón"
-msgstr ""
-
-msgid "Fondo botón"
-msgstr ""
-
-msgid "Texto hover"
-msgstr ""
-
-msgid "Fondo hover"
-msgstr ""
-
-msgid "Icono"
-msgstr ""
-
-msgid "Posición"
-msgstr ""
-
-msgid "Izquierda"
-msgstr ""
-
-msgid "Derecha"
-msgstr ""
-
-msgid "Arriba"
-msgstr ""
-
-msgid "Abajo"
-msgstr ""
-
-msgid "Mostrar en móvil"
-msgstr ""
-
-msgid "Sí"
-msgstr ""
-
-msgid "No"
-msgstr ""
-
-msgid "Actualizar configuración"
-msgstr ""
-
-msgid "Error: nonce inválido."
-msgstr ""
-
-msgid "Error: método no permitido."
-msgstr ""
-
-msgid "%d producto(s) encontrado(s)."
-msgstr ""
-
-msgid "No se encontraron productos."
-msgstr ""
-
-msgid "%d unidad(es) añadida(s)."
-msgstr ""
-
-msgid "Error al añadir el producto."
-msgstr ""
-
-msgid "Lista guardada correctamente."
-msgstr ""
-
-msgid "Error: nombre de lista vacío."
-msgstr ""
-
-msgid "Error: datos de lista inválidos."
-msgstr ""
-
-msgid "Lista eliminada."
-msgstr ""
-
-msgid "Error al eliminar la lista."
-msgstr ""
-
-msgid "Carrito actualizado."
-msgstr ""
-
-msgid "El carrito está vacío."
 msgstr ""
 
 msgid "Sin búsqueda."
@@ -178,20 +58,109 @@ msgstr ""
 msgid "Guardar Colores"
 msgstr ""
 
-msgid "Enlace directo:"
+msgid "No hay registros aún."
 msgstr ""
 
-msgid "Abrir buscador"
+msgid "Colores base actuales: Botón (fondo #ffffff, texto #61ce70, borde #61ce70), Hover (fondo #ffffff, texto #E26143, borde #61ce70), Precio (#dd3333)"
 msgstr ""
 
 msgid "Para mostrar el buscador, pega el shortcode %s dentro del contenido de cualquier página o entrada."
 msgstr ""
 
+msgid "Botones Principales"
+msgstr ""
+
+msgid "Fondo botón"
+msgstr ""
+
+msgid "Texto botón"
+msgstr ""
+
+msgid "Borde botón"
+msgstr ""
+
+msgid "Fondo hover"
+msgstr ""
+
+msgid "Texto hover"
+msgstr ""
+
+msgid "Borde hover"
+msgstr ""
+
+msgid "Radio borde"
+msgstr ""
+
+msgid "Fondos y Contenedores"
+msgstr ""
+
+msgid "Fondo resultados"
+msgstr ""
+
+msgid "Fondo sidebar"
+msgstr ""
+
+msgid "Texto sidebar"
+msgstr ""
+
+msgid "Fondo cabecera"
+msgstr ""
+
+msgid "Texto cabecera"
+msgstr ""
+
+msgid "Campos de Entrada"
+msgstr ""
+
+msgid "Fondo input"
+msgstr ""
+
+msgid "Texto input"
+msgstr ""
+
+msgid "Borde input"
+msgstr ""
+
+msgid "Productos"
+msgstr ""
+
+msgid "Fondo producto"
+msgstr ""
+
+msgid "Texto producto"
+msgstr ""
+
+msgid "Color precio"
+msgstr ""
+
+msgid "Color checkbox"
+msgstr ""
+
+msgid "Color enlace"
+msgstr ""
+
+msgid "Controles de Cantidad"
+msgstr ""
+
+msgid "Fondo cantidad"
+msgstr ""
+
+msgid "Texto cantidad"
+msgstr ""
+
+msgid "Fondo botones cantidad"
+msgstr ""
+
+msgid "Texto botones cantidad"
+msgstr ""
+
+#. translators: %d: number of units added.
 msgid "%d unidad añadida."
 msgid_plural "%d unidades añadidas."
 msgstr[0] ""
 msgstr[1] ""
 
+#. translators: %d: number of unavailable products.
 msgid "%d producto no disponible."
 msgid_plural "%d productos no disponibles."
 msgstr[0] ""

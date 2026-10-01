@@ -3,7 +3,7 @@
  * Plugin Name: YGB-SFood
  * Plugin URI: https://url/lista-de-compras/
  * Description: Buscador de alimentos con controles +- en cantidad, admin-ajax, colores personalizables, responsive.
- * Version: 6.0.0
+ * Version: 6.0.1
  * Author: YGB
  * Author URI: https://github.com/yosdeny
  * Requires at least: 7.0
@@ -35,6 +35,7 @@ class YGB_SFood {
         register_activation_hook(__FILE__, [$this, 'activar']);
         register_deactivation_hook(__FILE__, [$this, 'desactivar']);
 
+        add_action('init', [$this, 'init']);
         add_action('admin_menu', [$this, 'admin_menu']);
         add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_scripts']);
         add_shortcode('ygb_sfood', [$this, 'shortcode']);
@@ -56,10 +57,19 @@ class YGB_SFood {
     public function activar(): void {
         $this->crear_tabla();
         $this->set_default_colors();
+        flush_rewrite_rules(false);
     }
 
     public function desactivar(): void {
-        // Sin rewrite rules que limpiar.
+        flush_rewrite_rules(false);
+    }
+
+    public function init(): void {
+        load_plugin_textdomain(
+            'ygb-sfood',
+            false,
+            dirname(plugin_basename(__FILE__)) . '/languages'
+        );
     }
 
     private function crear_tabla(): void {
@@ -160,15 +170,15 @@ class YGB_SFood {
             'dashicons-search',
             30
         );
-        add_submenu_page('ygb-sfood', 'Estadísticas', 'Estadísticas', 'manage_options', 'ygb-estadisticas', [$this, 'admin_estadisticas']);
-        add_submenu_page('ygb-sfood', 'Personalizar', 'Personalizar', 'manage_options', 'ygb-personalizar', [$this, 'admin_personalizar']);
+        add_submenu_page('ygb-sfood', __('Estadísticas', 'ygb-sfood'), __('Estadísticas', 'ygb-sfood'), 'manage_options', 'ygb-estadisticas', [$this, 'admin_estadisticas']);
+        add_submenu_page('ygb-sfood', __('Personalizar', 'ygb-sfood'), __('Personalizar', 'ygb-sfood'), 'manage_options', 'ygb-personalizar', [$this, 'admin_personalizar']);
     }
 
     public function admin_dashboard(): void {
         echo '<div class="wrap"><h1>' . esc_html__('YGB-SFood', 'ygb-sfood') . '</h1>';
         echo '<div class="notice notice-info inline"><p>';
         echo sprintf(
-            /* translators: %s: código del shortcode. */
+            /* translators: %s: shortcode. */
             esc_html__('Para mostrar el buscador, pega el shortcode %s dentro del contenido de cualquier página o entrada.', 'ygb-sfood'),
             '<code>[ygb_sfood]</code>'
         );
@@ -380,7 +390,7 @@ class YGB_SFood {
                         <label>Tu lista de compras mas facil que nunca.</label><br>
                         <label>No tienes que nombrar el producto completo para encontrarlo.</label><br>
                         <label>Lo mismo funciona para cada palabra separada por (,) en la busqueda.</label><br>
-                        <label>Puedes espesificar hasta la cantidad para cada uno.</label>
+                        <label>Puedes especificar hasta la cantidad para cada uno.</label>
                         <input type="text" id="ygb-input" placeholder="Ej: 2 manzanas, leche, pan integral" autocomplete="off" />
                         <div id="ygb-sugerencias" style="position:relative;"></div>
                     </div>
@@ -714,14 +724,10 @@ class YGB_SFood {
         return (string) ob_get_clean();
     }
 
-    /**
-     * Devuelve un enlace a la primera página que contenga el shortcode [ygb_sfood].
-     * Si no la encuentra, devuelve la home.
-     */
     private function find_shortcode_page_url(): string {
         $pages = get_pages([
             'post_status' => 'publish',
-            'number'      => 20,
+            'number'      => 50,
         ]);
         foreach ($pages as $page) {
             if (has_shortcode((string) $page->post_content, 'ygb_sfood')) {
@@ -871,11 +877,13 @@ class YGB_SFood {
         if ($agregados > 0) {
             $this->log('', 0, $agregados);
             $mensaje = sprintf(
+                /* translators: %d: number of units added. */
                 _n('%d unidad añadida.', '%d unidades añadidas.', $agregados, 'ygb-sfood'),
                 $agregados
             );
             if ($rechazados > 0) {
                 $mensaje .= ' ' . sprintf(
+                    /* translators: %d: number of unavailable products. */
                     _n('%d producto no disponible.', '%d productos no disponibles.', $rechazados, 'ygb-sfood'),
                     $rechazados
                 );
