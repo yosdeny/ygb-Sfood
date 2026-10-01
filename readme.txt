@@ -3,7 +3,7 @@ Contributors: yosdeny
 Tags: buscador, alimentos, woocommerce, lista de compra, bulk order, carrito, cantidades, autocompletado, recetas
 Requires at least: 7.0
 Tested up to: 7.1.2
-Stable tag: 6.0.1
+Stable tag: 6.1.0
 Requires PHP: 8.0
 Tested PHP: 8.2
 License: GPLv2 or later
@@ -26,7 +26,7 @@ Transforma listas de alimentos escritas en texto en productos de WooCommerce con
 * **Autocompletado inteligente**: Mientras escribes, sugiere productos existentes para completar el último término.
 * **Listas guardadas**: Los usuarios registrados pueden guardar sus búsquedas frecuentes y cargarlas con un clic.
 * **Estadísticas de búsqueda**: En el panel de administración, consulta las últimas 100 búsquedas realizadas, productos encontrados y agregados.
-* **Shortcode simple**: Inserta `[ygb_sfood]` en cualquier página o entrada y el buscador estará listo.
+* **Página automática**: Al activar el plugin se crea una página "Lista de Compras" con el shortcode `[ygb_sfood]` ya insertado.
 * **Personalización de colores**: 22 opciones independientes para ajustar el aspecto del buscador al tema de tu tienda.
 
 = Requisitos =
@@ -39,14 +39,12 @@ Transforma listas de alimentos escritas en texto en productos de WooCommerce con
 
 1. Sube la carpeta `ygb-sfood` al directorio `/wp-content/plugins/` de tu instalación de WordPress.
 2. Activa el plugin desde el menú "Plugins" del escritorio de WordPress.
-3. Asegúrate de que WooCommerce esté activo.
-4. Crea una página nueva en **Páginas → Añadir nueva**.
-5. Dentro del contenido, pega el shortcode `[ygb_sfood]`.
-6. Publica la página.
+3. Al activarse, el plugin crea automáticamente una página llamada "Lista de Compras" con el shortcode `[ygb_sfood]` dentro. Si la página ya existía, no se duplica.
+4. Asegúrate de que WooCommerce esté activo.
 
 == Usage ==
 
-1. Ve a la página donde insertaste el shortcode `[ygb_sfood]`.
+1. Ve a la página "Lista de Compras" que el plugin creó automáticamente, o a cualquier página donde hayas pegado el shortcode `[ygb_sfood]`.
 2. Escribe los nombres de los alimentos separados por comas (puedes usar cantidades, por ejemplo `2 leche, 1 pan`).
 3. Si lo deseas, ajusta las cantidades individuales de cada producto.
 4. Marca los productos que quieras añadir y pulsa **"Añadir seleccionados al carrito"**, o usa el botón individual de cada producto.
@@ -55,11 +53,11 @@ Transforma listas de alimentos escritas en texto en productos de WooCommerce con
 = Shortcodes disponibles =
 
 * `[ygb_sfood]` — Muestra el buscador completo.
-* `[ygb_sfood_link texto="Buscar alimentos" class="mi-clase"]` — Genera un enlace a la primera página publicada que contenga `[ygb_sfood]`.
+* `[ygb_sfood_link texto="Buscar alimentos" class="mi-clase"]` — Genera un enlace a la página del buscador.
 
 = Administración =
 
-* **YGB-SFood → YGB-SFood**: Pantalla principal con el shortcode a copiar.
+* **YGB-SFood → YGB-SFood**: Pantalla principal con el estado de la página del buscador y el shortcode a copiar.
 * **YGB-SFood → Estadísticas**: Últimas 100 búsquedas realizadas con el número de productos encontrados y agregados.
 * **YGB-SFood → Personalizar**: 22 opciones de color para adaptar el buscador al tema de la tienda.
 
@@ -71,8 +69,11 @@ Sí, el plugin depende completamente de WooCommerce. Sin él no funcionará.
 = ¿Puedo usar este plugin para productos que no sean alimentos? =
 Sí, aunque está pensado para alimentos, puedes usarlo con cualquier tipo de producto. Simplemente buscará por nombre en tu tienda.
 
-= ¿Cómo muestro el buscador en una página? =
-Crea una página, pega el shortcode `[ygb_sfood]` dentro del contenido y publica. No requiere ninguna plantilla ni configuración adicional.
+= ¿Cómo se muestra el buscador en una página? =
+Al activar el plugin, se crea automáticamente una página "Lista de Compras" con el shortcode `[ygb_sfood]` dentro. También puedes pegar el shortcode en cualquier otra página o entrada.
+
+= ¿Qué pasa si borro la página del buscador? =
+El plugin la detecta como ausente y muestra un botón en el panel **YGB-SFood** para recrearla. También puedes crearla manualmente y pegar el shortcode.
 
 = ¿Qué pasa si escribo un producto que no existe? =
 El sistema te avisará de que no se encontraron coincidencias. La búsqueda se registra en las estadísticas para que puedas ampliar tu catálogo si lo deseas.
@@ -89,9 +90,6 @@ En el menú de administración de WordPress encontrarás una entrada llamada "YG
 = ¿Cómo cambio los colores del buscador? =
 Ve a **YGB-SFood → Personalizar**. Ahí puedes ajustar los 22 colores que controlan botones, inputs, textos, precios, cantidades y demás elementos del buscador.
 
-= ¿Cómo personalizo el CSS? =
-El buscador usa selectores con el prefijo `#ygb-app` y `.ygb-*`. Puedes añadir tus reglas CSS desde `Apariencia → Personalizar → CSS adicional`.
-
 == Screenshots ==
 
 1. Interfaz principal del buscador con campo de texto, cantidad y botones.
@@ -102,6 +100,12 @@ El buscador usa selectores con el prefijo `#ygb-app` y `.ygb-*`. Puedes añadir 
 6. Panel de personalización de colores.
 
 == Changelog ==
+
+= 6.1.0 =
+* AÑADIDO: El plugin crea automáticamente una página "Lista de Compras" con el shortcode `[ygb_sfood]` al activarse.
+* AÑADIDO: Detección de página existente por meta key, por slug o por opción guardada. No se duplica.
+* AÑADIDO: Botón en el panel "YGB-SFood" para recrear la página si el usuario la borró.
+* MEJORADO: `[ygb_sfood_link]` usa la página del buscador si existe.
 
 = 6.0.1 =
 * AÑADIDO: Carga del textdomain con `load_plugin_textdomain()`.
@@ -153,8 +157,8 @@ El buscador usa selectores con el prefijo `#ygb-app` y `.ygb-*`. Puedes añadir 
 
 == Upgrade Notice ==
 
-= 6.0.1 =
-Correcciones de mantenimiento: carga del textdomain, limpieza de rewrite rules residuales y typo en la interfaz. Sin cambios funcionales.
+= 6.1.0 =
+El plugin crea automáticamente una página "Lista de Compras" con el shortcode insertado al activarse. Si la borras, puedes recrearla desde el panel del plugin.
 
 = 6.0.0 =
 Eliminado el rewrite `/lista-de-compras/` y la plantilla `blank.php`. Ahora el buscador se muestra exclusivamente con el shortcode `[ygb_sfood]` en cualquier página o entrada. Si tenías una página con la plantilla antigua, cambia su contenido por el shortcode.

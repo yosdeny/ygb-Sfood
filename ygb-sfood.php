@@ -3,7 +3,7 @@
  * Plugin Name: YGB-SFood
  * Plugin URI: https://url/lista-de-compras/
  * Description: Buscador de alimentos con controles +- en cantidad, admin-ajax, colores personalizables, responsive.
- * Version: 6.0.1
+ * Version: 6.1.0
  * Author: YGB
  * Author URI: https://github.com/yosdeny
  * Requires at least: 7.0
@@ -23,9 +23,13 @@ if (!defined('ABSPATH')) {
 
 class YGB_SFood {
 
+    private const PAGE_META_KEY   = '_ygb_sfood_page';
+    private const PAGE_OPTION_KEY = 'ygb_sfood_page_id';
+    private const PAGE_SLUG       = 'lista-de-compras';
+    private const MAX_ITEMS       = 50;
+
     private string $table_name;
     private wpdb $db;
-    private const MAX_ITEMS = 50;
 
     public function __construct() {
         global $wpdb;
@@ -38,6 +42,7 @@ class YGB_SFood {
         add_action('init', [$this, 'init']);
         add_action('admin_menu', [$this, 'admin_menu']);
         add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_scripts']);
+        add_action('admin_post_ygb_create_page', [$this, 'handle_create_page']);
         add_shortcode('ygb_sfood', [$this, 'shortcode']);
         add_shortcode('ygb_sfood_link', [$this, 'shortcode_link']);
 
@@ -57,6 +62,7 @@ class YGB_SFood {
     public function activar(): void {
         $this->crear_tabla();
         $this->set_default_colors();
+        $this->maybe_create_page();
         flush_rewrite_rules(false);
     }
 
@@ -83,6 +89,114 @@ class YGB_SFood {
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         dbDelta($sql);
     }
+
+    // =====================================================================
+    // Página automática
+    // =====================================================================
+
+    /**
+     * Devuelve la página del buscador si existe; null si no.
+     *
+     * Prioridad:
+     *  1) Por ID guardado en opción (rápido).
+     *  2) Por meta key `_ygb_sfood_page`.
+     *  3) Por slug `lista-de-compras`.
+     */
+    public function find_sfood_page(): ?WP_Post {
+        // 1) Opción.
+        $id = (int) get_option(self::PAGE_OPTION_KEY, 0);
+        if ($id > 0) {
+            $page = get_post($id);
+            if ($page instanceof WP_Post && $page->post_type === 'page' && $page->post_status !== 'trash') {
+                return $page;
+            }
+            // La opción apunta a algo que ya no existe: límpiala.
+            delete_option(self::PAGE_OPTION_KEY);
+        }
+
+        // 2) Por meta key.
+        $pages = get_posts([
+            'post_type'      => 'page',
+            'post_status'    => ['publish', 'draft', 'private'],
+            'posts_per_page' => 1,
+            'fields'         => 'all',
+            'meta_key'       => self::PAGE_META_KEY,
+            'meta_value'     => '1',
+            'no_found_rows'  => true,
+        ]);
+        if (!empty($pages)) {
+            $page = $pages[0];
+            update_option(self::PAGE_OPTION_KEY, $page->ID);
+            return $page;
+        }
+
+        // 3) Por slug.
+        $page = get_page_by_path(self::PAGE_SLUG);
+        if ($page instanceof WP_Post && $page->post_status !== 'trash') {
+            update_post_meta($page->ID, self::PAGE_META_KEY, '1');
+            update_option(self::PAGE_OPTION_KEY, $page->ID);
+            return $page;
+        }
+
+        return null;
+    }
+
+    /**
+     * Crea la página del buscador si no existe.
+     * Devuelve el ID de la página (existente o nueva) o 0 si falla.
+     */
+    public function maybe_create_page(): int {
+        $existing = $this->find_sfood_page();
+        if ($existing instanceof WP_Post) {
+            return $existing->ID;
+        }
+
+        $page_id = wp_insert_post([
+            'post_title'   => __('Lista de Compras', 'ygb-sfood'),
+            'post_name'    => self::PAGE_SLUG,
+            'post_content' => '[ygb_sfood]',
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+            'post_author'  => get_current_user_id() ?: 1,
+            'meta_input'   => [
+                self::PAGE_META_KEY => '1',
+            ],
+        ], true);
+
+        if (is_wp_error($page_id) || !$page_id) {
+            return 0;
+        }
+
+        update_option(self::PAGE_OPTION_KEY, (int) $page_id);
+        return (int) $page_id;
+    }
+
+    /**
+     * Handler admin: recrear la página bajo demanda.
+     * Ruta: admin-post.php?action=ygb_create_page
+     */
+    public function handle_create_page(): void {
+        if (!current_user_can('manage_options')) {
+            wp_die(esc_html__('Permisos insuficientes.', 'ygb-sfood'));
+        }
+        check_admin_referer('ygb_create_page');
+
+        $page_id = $this->maybe_create_page();
+
+        $redirect = add_query_arg(
+            [
+                'page'      => 'ygb-sfood',
+                'ygb_notice' => $page_id > 0 ? 'page_ok' : 'page_fail',
+            ],
+            admin_url('admin.php')
+        );
+        wp_safe_redirect($redirect);
+        exit;
+    }
+
+    // =====================================================================
+    // Colores
+    // =====================================================================
 
     private function get_theme_colors(): array {
         $theme_colors = [];
@@ -160,6 +274,10 @@ class YGB_SFood {
         );
     }
 
+    // =====================================================================
+    // Admin
+    // =====================================================================
+
     public function admin_menu(): void {
         add_menu_page(
             'YGB-SFood',
@@ -175,11 +293,47 @@ class YGB_SFood {
     }
 
     public function admin_dashboard(): void {
+        $page = $this->find_sfood_page();
+        $notice = isset($_GET['ygb_notice']) ? sanitize_key(wp_unslash($_GET['ygb_notice'])) : '';
+
         echo '<div class="wrap"><h1>' . esc_html__('YGB-SFood', 'ygb-sfood') . '</h1>';
+
+        if ($notice === 'page_ok') {
+            echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__('Página del buscador creada correctamente.', 'ygb-sfood') . '</p></div>';
+        } elseif ($notice === 'page_fail') {
+            echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__('No se pudo crear la página del buscador.', 'ygb-sfood') . '</p></div>';
+        }
+
+        if ($page instanceof WP_Post) {
+            echo '<div class="notice notice-success inline"><p>';
+            echo sprintf(
+                /* translators: %s: enlace a la página del buscador. */
+                esc_html__('Página del buscador activa: %s.', 'ygb-sfood'),
+                '<a href="' . esc_url((string) get_permalink($page->ID)) . '" target="_blank" rel="noopener">' . esc_html(get_the_title($page)) . '</a>'
+            );
+            echo ' &nbsp; ';
+            echo sprintf(
+                /* translators: %s: enlace a la edición de la página. */
+                esc_html__('Editar: %s', 'ygb-sfood'),
+                '<a href="' . esc_url((string) get_edit_post_link($page->ID)) . '">' . esc_html__('abrir en el editor', 'ygb-sfood') . '</a>'
+            );
+            echo '</p></div>';
+        } else {
+            echo '<div class="notice notice-warning inline"><p>';
+            echo esc_html__('No existe la página del buscador. Puedes crearla con el botón de abajo.', 'ygb-sfood');
+            echo '</p></div>';
+
+            $create_url = wp_nonce_url(
+                admin_url('admin-post.php?action=ygb_create_page'),
+                'ygb_create_page'
+            );
+            echo '<p><a href="' . esc_url($create_url) . '" class="button button-primary">' . esc_html__('Crear página "Lista de Compras"', 'ygb-sfood') . '</a></p>';
+        }
+
         echo '<div class="notice notice-info inline"><p>';
         echo sprintf(
             /* translators: %s: shortcode. */
-            esc_html__('Para mostrar el buscador, pega el shortcode %s dentro del contenido de cualquier página o entrada.', 'ygb-sfood'),
+            esc_html__('También puedes mostrar el buscador pegando el shortcode %s en cualquier página o entrada.', 'ygb-sfood'),
             '<code>[ygb_sfood]</code>'
         );
         echo '</p></div>';
@@ -297,6 +451,10 @@ class YGB_SFood {
         </form></div>
         <?php
     }
+
+    // =====================================================================
+    // Shortcode
+    // =====================================================================
 
     private function maybe_init_wc_ajax(): void {
         if (!function_exists('WC') || !WC()) {
@@ -724,17 +882,15 @@ class YGB_SFood {
         return (string) ob_get_clean();
     }
 
-    private function find_shortcode_page_url(): string {
-        $pages = get_pages([
-            'post_status' => 'publish',
-            'number'      => 50,
-        ]);
-        foreach ($pages as $page) {
-            if (has_shortcode((string) $page->post_content, 'ygb_sfood')) {
-                $permalink = get_permalink($page->ID);
-                if (is_string($permalink) && $permalink !== '') {
-                    return $permalink;
-                }
+    /**
+     * Devuelve la URL de la página del buscador si existe; si no, la home.
+     */
+    private function get_buscador_url(): string {
+        $page = $this->find_sfood_page();
+        if ($page instanceof WP_Post) {
+            $permalink = get_permalink($page->ID);
+            if (is_string($permalink) && $permalink !== '') {
+                return $permalink;
             }
         }
         return home_url('/');
@@ -742,9 +898,13 @@ class YGB_SFood {
 
     public function shortcode_link($atts): string {
         $atts = shortcode_atts(['texto' => 'Buscar alimentos', 'class' => ''], $atts);
-        $url  = $this->find_shortcode_page_url();
+        $url  = $this->get_buscador_url();
         return '<a href="' . esc_url($url) . '" class="' . esc_attr($atts['class']) . '">' . esc_html($atts['texto']) . '</a>';
     }
+
+    // =====================================================================
+    // AJAX
+    // =====================================================================
 
     private function check_ajax(): void {
         check_ajax_referer('ygb_nonce', 'nonce', true);
