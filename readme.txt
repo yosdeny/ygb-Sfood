@@ -3,7 +3,7 @@ Contributors: yosdeny
 Tags: buscador, alimentos, woocommerce, lista de compra, bulk order, carrito, cantidades, autocompletado, recetas
 Requires at least: 7.0
 Tested up to: 7.1.2
-Stable tag: 5.15.1
+Stable tag: 5.16.0
 Requires PHP: 8.0
 Tested PHP: 8.2
 License: GPLv2 or later
@@ -27,6 +27,7 @@ Transforma listas de alimentos escritas en texto en productos de WooCommerce con
 * **Listas guardadas**: Los usuarios registrados pueden guardar sus búsquedas frecuentes y cargarlas con un clic.
 * **Estadísticas de búsqueda**: En el panel de administración, consulta las últimas 100 búsquedas realizadas, productos encontrados y agregados.
 * **Shortcode simple**: Inserta `[ygb_sfood]` en cualquier página y el buscador estará listo.
+* **Plantilla de página "Lista de Compras"**: Crea una página y asígnale esta plantilla desde el editor para mostrar el buscador sin cabeceras ni elementos del tema.
 
 = Requisitos =
 
@@ -40,8 +41,9 @@ Transforma listas de alimentos escritas en texto en productos de WooCommerce con
 2. Activa el plugin desde el menú "Plugins" del escritorio de WordPress.
 3. Asegúrate de que WooCommerce esté activo.
 4. Inserta el shortcode `[ygb_sfood]` en la página o entrada donde quieras mostrar el buscador.
+5. Opcional: crea una página nueva y asígnale la plantilla "Lista de Compras" para una vista sin distracciones del tema.
 
-= Usage =
+== Usage ==
 
 1. Ve a la página donde insertaste el shortcode.
 2. Escribe los nombres de los alimentos separados por comas (puedes usar cantidades, por ejemplo `2 leche, 1 pan`).
@@ -49,7 +51,13 @@ Transforma listas de alimentos escritas en texto en productos de WooCommerce con
 4. Marca los productos que quieras añadir y pulsa **"Añadir seleccionados al carrito"**, o usa el botón individual de cada producto.
 5. Los usuarios registrados pueden guardar la búsqueda actual con el botón **"Guardar lista"** y recuperarla más tarde.
 
-= Frequently Asked Questions =
+= Uso de la plantilla "Lista de Compras" =
+
+1. Ve a **Páginas → Añadir nueva**.
+2. En el panel lateral, selecciona **Lista de Compras** en el selector de plantilla.
+3. Publica la página. El buscador se mostrará sin cabeceras, sidebars ni comentarios del tema.
+
+== Frequently Asked Questions ==
 
 = ¿Es necesario WooCommerce? =
 Sí, el plugin depende completamente de WooCommerce. Sin él no funcionará.
@@ -79,47 +87,55 @@ En el menú de administración de WordPress encontrarás una nueva entrada llama
 
 == Changelog ==
 
+= 5.16.0 =
+* AÑADIDO: Plantilla de página "Lista de Compras" seleccionable en el editor.
+* Sin cambios en el funcionamiento existente: rewrite /lista-de-compras/, shortcode `[ygb_sfood]`, panel admin, AJAX y caché intactos.
+
+= 5.15.2 =
+* CORREGIDO: `parsear()` rompía términos que contienen la letra "y" (p. ej. "mayonesa").
+* CORREGIDO: posible XSS en atributos `data-*` generados dinámicamente.
+* CORREGIDO: fuga de datos entre usuarios en la caché de búsquedas.
+* CORREGIDO: `sanitize_hex_color()` podía devolver `null` y borrar la opción.
+* CORREGIDO: validación estricta del campo `ygb_button_radius`.
+* MEJORADO: uso de `wp_unslash()` en todas las lecturas de `$_POST`.
+* MEJORADO: inicialización de la sesión de WooCommerce vía `WC()->initialize_session()`.
+* AÑADIDO: header `Requires Plugins: woocommerce`.
+
 = 5.15.1 =
 * MEJORADO: Integración automática con los colores del tema activo de WordPress
-* MEJORADO: Sistema avanzado de personalización de colores en el panel de administración (22 opciones independientes)
-* MEJORADO: Nueva paleta de colores base actualizada (blanco, verde #61ce70, naranja #E26143, dorado #dd9933, rojo #dd3333)
-* AÑADIDO: Botón "Añadir seleccionados al carrito" en la parte superior para mejor accesibilidad
-* CORREGIDO: Espaciado y márgenes excesivos entre el menú y el contenido
-* CORREGIDO: Efecto hover en el botón "Añadir seleccionados al carrito" inferior
-* COMPATIBILIDAD: Compatible con temas que usan el Customizer de WordPress
+* MEJORADO: Sistema avanzado de personalización de colores (22 opciones independientes)
+* AÑADIDO: Botón "Añadir seleccionados al carrito" superior
+* CORREGIDO: Espaciado y márgenes entre menú y contenido
+* CORREGIDO: Efecto hover en el botón inferior
 
 = 5.15.0 =
-* AÑADIDO: Sistema de caché para búsquedas de productos (transients API) - mejora rendimiento en un 60-80%
-* AÑADIDO: Sistema de caché para sugerencias de autocompletado
-* AÑADIDO: Filtro `ygb_sfood_search_cache_time` para personalizar tiempo de caché de búsquedas
-* AÑADIDO: Filtro `ygb_sfood_suggestions_cache_time` para personalizar tiempo de caché de sugerencias
-* AÑADIDO: Acción `ygb_sfood_search_cache_hit` - se ejecuta al usar caché en búsquedas
-* AÑADIDO: Acción `ygb_sfood_search_completed` - se ejecuta al completar búsqueda sin caché
-* AÑADIDO: Acción `ygb_sfood_suggestions_cache_hit` - se ejecuta al usar caché en sugerencias
-* AÑADIDO: Acción `ygb_sfood_suggestions_generated` - se ejecuta al generar sugerencias nuevas
-* MEJORADO: Documentación completa de hooks y filtros disponibles
-* MEJORADO: Tests unitarios para funciones AJAX
+* AÑADIDO: Sistema de caché para búsquedas y sugerencias (transients API)
+* AÑADIDO: Filtros `ygb_sfood_search_cache_time` y `ygb_sfood_suggestions_cache_time`
+* AÑADIDO: Acciones `ygb_sfood_search_cache_hit`, `ygb_sfood_search_completed`, `ygb_sfood_suggestions_cache_hit`, `ygb_sfood_suggestions_generated`
+* MEJORADO: Documentación completa de hooks y filtros
 * CORREGIDO: URL del plugin cambiada a 'lista-de-compras'
-* COMPATIBILIDAD: WordPress 7.0+, PHP 8.0+, WooCommerce compatible
 
 = 2.0 =
-* Añadida interpretación de cantidades en el texto (ej. "2 manzanas").
-* Selector de cantidad global e individual.
-* Listas guardadas para usuarios registrados.
-* Autocompletado inteligente.
-* Tabla de estadísticas en administración.
-* Cambio de nombre a ygb-sfood y nuevo shortcode `[ygb_sfood]`.
+* Añadida interpretación de cantidades
+* Selector de cantidad global e individual
+* Listas guardadas para usuarios registrados
+* Autocompletado inteligente
+* Tabla de estadísticas en administración
+* Cambio de nombre a ygb-sfood y shortcode `[ygb_sfood]`
 
 = 1.0 =
 * Versión inicial con búsqueda por lista, checkboxes, añadir seleccionados y añadir uno a uno.
 
 == Upgrade Notice ==
 
-= 5.15.0 =
-Actualización de rendimiento y extensibilidad. Añade sistema de caché para búsquedas y sugerencias (60-80% más rápido), nuevos hooks y filtros para desarrolladores, tests unitarios y documentación completa. Compatible con WordPress 7.0+ y PHP 8.0+.
+= 5.16.0 =
+Añade la plantilla "Lista de Compras" seleccionable desde el editor. Crea una página nueva y asígnale esa plantilla para mostrar el buscador sin cabeceras ni elementos del tema.
+
+= 5.15.2 =
+Correcciones de seguridad y comportamiento. Actualización recomendada.
 
 = 2.0 =
-Actualización mayor con nuevas funcionalidades: cantidades, listas guardadas, autocompletado y estadísticas. Reemplaza el shortcode anterior `[buscador_alimentos]` por `[ygb_sfood]`.
+Actualización mayor con nuevas funcionalidades: cantidades, listas guardadas, autocompletado y estadísticas.
 
 == Credits ==
 
